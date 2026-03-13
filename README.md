@@ -1,5 +1,5 @@
 # Is This Clause Normal?
-
+ 
 A contract red-flag scanner for freelancers and solo founders who don't have a lawyer on speed dial.
 
 You paste in a contract (or upload a PDF, Word doc, or even a screenshot), and it tells you what's unusual, what to push back on, and what replacement language to ask for. It checks against real industry norms — not just vibes.
@@ -63,6 +63,36 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000). Paste in a contract or try one of the built-in examples (bare-bones agreement, California non-compete, AI training clause, 24-month exclusivity trap).
+
+---
+
+## Running with Docker
+
+**Prerequisites:** Docker, an Anthropic API key.
+
+Create a `.env.local` file (same one used for local dev — Docker Compose picks it up automatically):
+
+```bash
+ANTHROPIC_API_KEY=sk-ant-...
+
+# Optional: enables Indian language support
+SARVAM_API_KEY=...
+
+# Optional: override the default model (defaults to claude-sonnet-4-6)
+CLAUDE_MODEL=claude-sonnet-4-6
+```
+
+```bash
+docker compose up --build
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+To rebuild after code changes:
+
+```bash
+docker compose up --build --force-recreate
+```
 
 ---
 
