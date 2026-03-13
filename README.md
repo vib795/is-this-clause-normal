@@ -41,7 +41,7 @@ Contracts in Hindi, Tamil, Bengali, Telugu, Kannada, Malayalam, Marathi, Gujarat
 **Prerequisites:** Node.js 18+, an Anthropic API key.
 
 ```bash
-git clone https://github.com/yourname/is-this-clause-normal
+git clone https://github.com/vib795/is-this-clause-normal
 cd is-this-clause-normal
 npm install
 ```
@@ -68,9 +68,11 @@ Open [http://localhost:3000](http://localhost:3000). Paste in a contract or try 
 
 ## Running with Docker
 
+The image is published on Docker Hub at [`utkarshsingh/is-this-clause-normal`](https://hub.docker.com/r/utkarshsingh/is-this-clause-normal).
+
 **Prerequisites:** Docker, an Anthropic API key.
 
-Create a `.env.local` file (same one used for local dev — Docker Compose picks it up automatically):
+Create a `.env.local` file:
 
 ```bash
 ANTHROPIC_API_KEY=sk-ant-...
@@ -82,13 +84,23 @@ SARVAM_API_KEY=...
 CLAUDE_MODEL=claude-sonnet-4-6
 ```
 
+**Option A — pull and run the pre-built image (no clone needed):**
+
 ```bash
+docker run --env-file .env.local -p 3000:3000 utkarshsingh/is-this-clause-normal:latest
+```
+
+**Option B — build and run from source:**
+
+```bash
+git clone https://github.com/vib795/is-this-clause-normal
+cd is-this-clause-normal
 docker compose up --build
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
 
-To rebuild after code changes:
+To pick up code changes without rebuilding from scratch:
 
 ```bash
 docker compose up --build --force-recreate
