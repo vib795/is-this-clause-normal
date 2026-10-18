@@ -1,7 +1,20 @@
 'use client';
 
-import { useState, useRef, DragEvent } from 'react';
+import { useState, useRef, useEffect, DragEvent } from 'react';
+import { useTranslations } from 'next-intl';
 import { SARVAM_LANGUAGES } from '@/lib/sarvam-languages';
+
+interface ProviderOption {
+  id: string;
+  label: string;
+  default_model: string;
+  models: string[];
+  capabilities: { vision: boolean; native_pdf: boolean };
+  configured: boolean;
+}
+
+const PROVIDER_PREF_KEY = 'clause-scanner-provider';
+const MODEL_PREF_KEY = 'clause-scanner-model';
 
 const SAMPLE_CONTRACTS = [
   {
@@ -134,12 +147,58 @@ const ACCEPTED_MIME = [
 ];
 
 export default function ContractInput({ onAnalyze, isLoading, disabled }: ContractInputProps) {
+  const t = useTranslations('scan');
   const [mode, setMode] = useState<'paste' | 'file'>('paste');
   const [text, setText] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const [languageCode, setLanguageCode] = useState('');
+  const [providers, setProviders] = useState<ProviderOption[]>([]);
+  const [providerId, setProviderId] = useState<string>('');
+  const [modelId, setModelId] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    fetch('/api/providers')
+      .then(r => r.json())
+      .then((data: { providers: ProviderOption[] }) => {
+        const list = data.providers || [];
+        setProviders(list);
+
+        const savedProvider = typeof window !== 'undefined' ? localStorage.getItem(PROVIDER_PREF_KEY) : null;
+        const savedModel = typeof window !== 'undefined' ? localStorage.getItem(MODEL_PREF_KEY) : null;
+
+        const configured = list.filter(p => p.configured);
+        const initial =
+          (savedProvider && list.find(p => p.id === savedProvider && p.configured)) ||
+          configured[0] ||
+          list[0];
+
+        if (initial) {
+          setProviderId(initial.id);
+          const modelOk = savedModel && initial.models.includes(savedModel) ? savedModel : initial.default_model;
+          setModelId(modelOk);
+        }
+      })
+      .catch(() => { /* server falls back to defaults */ });
+  }, []);
+
+  const currentProvider = providers.find(p => p.id === providerId);
+
+  const handleProviderChange = (id: string) => {
+    setProviderId(id);
+    const p = providers.find(x => x.id === id);
+    if (p) {
+      setModelId(p.default_model);
+      localStorage.setItem(PROVIDER_PREF_KEY, id);
+      localStorage.setItem(MODEL_PREF_KEY, p.default_model);
+    }
+  };
+
+  const handleModelChange = (id: string) => {
+    setModelId(id);
+    localStorage.setItem(MODEL_PREF_KEY, id);
+  };
 
   const handleSubmit = () => {
     const fd = new FormData();
@@ -150,9 +209,9 @@ export default function ContractInput({ onAnalyze, isLoading, disabled }: Contra
     } else {
       return;
     }
-    if (languageCode) {
-      fd.append('language_code', languageCode);
-    }
+    if (languageCode) fd.append('language_code', languageCode);
+    if (providerId) fd.append('provider', providerId);
+    if (modelId) fd.append('model', modelId);
     onAnalyze(fd);
   };
 
@@ -176,154 +235,255 @@ export default function ContractInput({ onAnalyze, isLoading, disabled }: Contra
 
   const canSubmit = mode === 'paste' ? text.trim().length > 50 : !!file;
 
-  return (
-    <div className="w-full max-w-3xl mx-auto">
-      {/* Mode tabs */}
-      <div className="flex gap-1 p-1 bg-white/5 rounded-xl mb-4 w-fit">
-        <button
-          onClick={() => setMode('paste')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-            mode === 'paste'
-              ? 'bg-white/10 text-white'
-              : 'text-zinc-500 hover:text-zinc-300'
-          }`}
-        >
-          Paste text
-        </button>
-        <button
-          onClick={() => setMode('file')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-            mode === 'file'
-              ? 'bg-white/10 text-white'
-              : 'text-zinc-500 hover:text-zinc-300'
-          }`}
-        >
-          Upload file
-        </button>
-      </div>
+  const isImage = file?.type.startsWith('image/');
+  const isPdf = file?.name.toLowerCase().endsWith('.pdf') || file?.type === 'application/pdf';
+  const visionWarning =
+    isImage && currentProvider && !currentProvider.capabilities.vision
+      ? t('warnNoVision', { label: currentProvider.label })
+      : null;
+  const pdfWarning =
+    isPdf && currentProvider && !currentProvider.capabilities.native_pdf
+      ? t('warnNoPdf', { label: currentProvider.label })
+      : null;
 
-      {mode === 'paste' ? (
-        <>
-          <textarea
-            value={text}
-            onChange={e => setText(e.target.value)}
-            placeholder="Paste your contract text here..."
-            className="w-full h-64 bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-white/20 resize-none font-mono leading-relaxed"
-          />
-          <div className="flex flex-wrap items-center gap-2 mt-2">
-            <span className="text-xs text-zinc-600">Try an example:</span>
-            {SAMPLE_CONTRACTS.map(sample => (
-              <button
-                key={sample.label}
-                onClick={() => setText(sample.text)}
-                title={sample.description}
-                className="text-xs text-zinc-500 hover:text-zinc-300 border border-white/10 hover:border-white/20 rounded-full px-2.5 py-0.5 transition-colors"
-              >
-                {sample.label}
-              </button>
-            ))}
+  return (
+    <div className="w-full">
+      <div
+        className="relative overflow-hidden rounded-3xl border border-stroke bg-elevated"
+        style={{ boxShadow: 'var(--shadow-lg)' }}
+      >
+        {/* Tabs */}
+        <div className="flex items-center justify-between border-b border-stroke px-4 py-3 sm:px-6">
+          <div className="inline-flex gap-1 rounded-full bg-glass p-1">
+            <TabButton active={mode === 'paste'} onClick={() => setMode('paste')}>{t('tabPaste')}</TabButton>
+            <TabButton active={mode === 'file'} onClick={() => setMode('file')}>{t('tabUpload')}</TabButton>
           </div>
-        </>
-      ) : (
-        <div
-          onDragOver={e => { e.preventDefault(); setDragOver(true); }}
-          onDragLeave={() => setDragOver(false)}
-          onDrop={handleDrop}
-          onClick={() => fileInputRef.current?.click()}
-          className={`w-full h-64 border-2 border-dashed rounded-xl flex flex-col items-center justify-center cursor-pointer transition-all ${
-            dragOver
-              ? 'border-white/40 bg-white/5'
-              : file
-              ? 'border-emerald-700/60 bg-emerald-950/20'
-              : 'border-white/10 hover:border-white/20 hover:bg-white/[0.02]'
-          }`}
-        >
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept={ACCEPTED_TYPES}
-            className="hidden"
-            onChange={e => {
-              const f = e.target.files?.[0];
-              if (f) handleFile(f);
-            }}
-          />
-          {file ? (
+          <p className="hidden text-[12px] text-text-3 sm:block">
+            {t('supportedFormats')}
+          </p>
+        </div>
+
+        {/* Input surface */}
+        <div className="p-4 sm:p-6">
+          {mode === 'paste' ? (
             <>
-              <div className="text-2xl mb-2">
-                {file.type.startsWith('image/') ? '🖼️' : file.name.endsWith('.pdf') ? '📄' : '📝'}
+              <textarea
+                value={text}
+                onChange={e => setText(e.target.value)}
+                placeholder={t('pasteePlaceholder')}
+                spellCheck={false}
+                className="w-full h-64 sm:h-72 resize-none rounded-2xl border border-stroke bg-bg p-4 font-mono text-[13px] leading-relaxed text-text placeholder:text-text-4 transition-colors duration-200 focus:border-stroke-strong focus:outline-none"
+              />
+              <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                <span className="mr-1 text-[12px] text-text-3">{t('trySample')}</span>
+                {SAMPLE_CONTRACTS.map(sample => (
+                  <button
+                    key={sample.label}
+                    onClick={() => setText(sample.text)}
+                    title={sample.description}
+                    className="rounded-full border border-stroke px-2.5 py-0.5 text-[12px] text-text-2 transition-[background-color,color,border-color] duration-200 hover:border-stroke-strong hover:text-text"
+                  >
+                    {sample.label}
+                  </button>
+                ))}
               </div>
-              <p className="text-sm font-medium text-emerald-400">{file.name}</p>
-              <p className="text-xs text-zinc-500 mt-1">{(file.size / 1024).toFixed(0)} KB</p>
-              <button
-                onClick={e => { e.stopPropagation(); setFile(null); }}
-                className="mt-3 text-xs text-zinc-500 hover:text-zinc-300 underline"
-              >
-                Remove
-              </button>
             </>
           ) : (
-            <>
-              <div className="text-3xl mb-3 opacity-40">📎</div>
-              <p className="text-sm text-zinc-400 font-medium">
-                Drop your contract here, or{' '}
-                <span className="text-white underline">browse</span>
-              </p>
-              <p className="text-xs text-zinc-600 mt-2">
-                PDF, Word, text, or image (screenshot) — up to 10MB
-              </p>
-            </>
+            <div
+              onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+              onDragLeave={() => setDragOver(false)}
+              onDrop={handleDrop}
+              onClick={() => fileInputRef.current?.click()}
+              className={[
+                'flex h-64 sm:h-72 w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed text-center transition-[background-color,border-color] duration-200',
+                dragOver
+                  ? 'border-accent bg-accent-soft'
+                  : file
+                  ? 'border-sev-green-stroke bg-sev-green-soft'
+                  : 'border-stroke bg-bg hover:border-stroke-strong hover:bg-glass',
+              ].join(' ')}
+            >
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept={ACCEPTED_TYPES}
+                className="hidden"
+                onChange={e => {
+                  const f = e.target.files?.[0];
+                  if (f) handleFile(f);
+                }}
+              />
+              {file ? (
+                <>
+                  <FileGlyph kind={file.type.startsWith('image/') ? 'image' : file.name.endsWith('.pdf') ? 'pdf' : 'doc'} />
+                  <p className="mt-3 text-[14px] font-medium text-sev-green">{file.name}</p>
+                  <p className="mt-0.5 text-[12px] text-text-3">{(file.size / 1024).toFixed(0)} KB</p>
+                  <button
+                    onClick={e => { e.stopPropagation(); setFile(null); }}
+                    className="mt-4 text-[12px] text-text-3 underline-offset-2 transition-colors duration-200 hover:text-text hover:underline"
+                  >
+                    {t('fileRemove')}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <FileGlyph kind="empty" />
+                  <p className="mt-3 text-[14px] text-text">
+                    {t('fileDropHint')} <span className="underline underline-offset-2">{t('fileBrowse')}</span>
+                  </p>
+                  <p className="mt-1 text-[12px] text-text-3">{t('fileFormats')}</p>
+                </>
+              )}
+            </div>
           )}
         </div>
-      )}
 
-      {/* Language selector */}
-      <div className="mt-4 flex flex-col gap-1.5">
-        <label className="text-xs text-zinc-500">
-          Contract language{' '}
-          <span className="text-zinc-600">(optional — for Indian language contracts)</span>
-        </label>
+        {/* Provider · Model · Language */}
+        <div className="border-t border-stroke bg-glass px-4 py-4 sm:px-6">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <FieldSelect
+              label={t('fieldProvider')}
+              value={providerId}
+              onChange={handleProviderChange}
+              options={providers.length === 0
+                ? [{ value: '', label: t('providerLoading'), disabled: true }]
+                : providers.map(p => ({
+                    value: p.id,
+                    label: p.configured ? p.label : t('providerNotConfigured', { label: p.label }),
+                    disabled: !p.configured,
+                  }))
+              }
+            />
+            <FieldSelect
+              label={t('fieldModel')}
+              value={modelId}
+              onChange={handleModelChange}
+              options={(currentProvider?.models || []).map(m => ({ value: m, label: m }))}
+            />
+            <FieldSelect
+              label={t('fieldLanguage')}
+              value={languageCode}
+              onChange={setLanguageCode}
+              options={[
+                { value: '', label: t('languageEnglish') },
+                ...Object.entries(SARVAM_LANGUAGES).map(([code, name]) => ({
+                  value: code,
+                  label: `${name} (${code})`,
+                })),
+              ]}
+            />
+          </div>
+          {(visionWarning || pdfWarning) && (
+            <p className="mt-3 text-[12px]" style={{ color: visionWarning ? 'var(--severity-yellow)' : 'var(--text-secondary)' }}>
+              {visionWarning || pdfWarning}
+            </p>
+          )}
+        </div>
+
+        {/* Submit */}
+        <div className="border-t border-stroke px-4 py-4 sm:px-6">
+          <button
+            onClick={handleSubmit}
+            disabled={!canSubmit || isLoading || disabled || !!visionWarning}
+            className={[
+              'group inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3.5 text-[15px] font-semibold transition-[background-color,transform,color] duration-200',
+              canSubmit && !isLoading && !disabled && !visionWarning
+                ? 'bg-accent text-on-accent shadow-[var(--shadow-accent)] hover:bg-accent-hover active:scale-[0.98]'
+                : 'bg-glass text-text-3 cursor-not-allowed',
+            ].join(' ')}
+          >
+            {isLoading ? (
+              <>
+                <Spinner /> {t('submitLoading')}
+              </>
+            ) : (
+              <>
+                {t('submitIdle')}
+                <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5">→</span>
+              </>
+            )}
+          </button>
+          <p className="mt-3 text-center text-[12px] text-text-3">
+            {t('submitDisclaimer')}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TabButton({
+  active, onClick, children,
+}: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      className={[
+        'rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-[background-color,color] duration-200',
+        active ? 'bg-elevated text-text shadow-sm' : 'text-text-2 hover:text-text',
+      ].join(' ')}
+    >
+      {children}
+    </button>
+  );
+}
+
+function FieldSelect({
+  label, value, onChange, options,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: { value: string; label: string; disabled?: boolean }[];
+}) {
+  return (
+    <label className="flex flex-col gap-1.5">
+      <span className="text-[11px] font-medium uppercase tracking-wider text-text-3">{label}</span>
+      <div className="relative">
         <select
-          value={languageCode}
-          onChange={e => setLanguageCode(e.target.value)}
-          className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-zinc-300 focus:outline-none focus:border-white/20 appearance-none cursor-pointer"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          className="w-full appearance-none rounded-xl border border-stroke bg-bg px-3 py-2 pr-9 text-[13.5px] text-text transition-colors duration-200 focus:border-stroke-strong focus:outline-none"
         >
-          <option value="">English (default)</option>
-          {Object.entries(SARVAM_LANGUAGES).map(([code, name]) => (
-            <option key={code} value={code}>
-              {name} ({code})
-            </option>
+          {options.map(o => (
+            <option key={o.value} value={o.value} disabled={o.disabled}>{o.label}</option>
           ))}
         </select>
-        {languageCode && SARVAM_LANGUAGES[languageCode] && (
-          <p className="text-xs text-zinc-500">
-            Contract analyzed natively — summary returned in {SARVAM_LANGUAGES[languageCode]}
-          </p>
-        )}
+        <span aria-hidden className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-text-3">
+          ⌄
+        </span>
       </div>
+    </label>
+  );
+}
 
-      <button
-        onClick={handleSubmit}
-        disabled={!canSubmit || isLoading || disabled}
-        className={`mt-4 w-full py-3.5 rounded-xl font-semibold text-sm transition-all ${
-          canSubmit && !isLoading && !disabled
-            ? 'bg-white text-black hover:bg-zinc-100 active:scale-[0.99]'
-            : 'bg-white/10 text-zinc-500 cursor-not-allowed'
-        }`}
-      >
-        {isLoading ? (
-          <span className="flex items-center justify-center gap-2">
-            <span className="inline-block w-4 h-4 border-2 border-zinc-500 border-t-transparent rounded-full animate-spin" />
-            Scanning for red flags...
-          </span>
-        ) : (
-          'Scan Contract →'
-        )}
-      </button>
+function FileGlyph({ kind }: { kind: 'pdf' | 'doc' | 'image' | 'empty' }) {
+  const label = kind === 'pdf' ? 'PDF' : kind === 'doc' ? 'DOC' : kind === 'image' ? 'IMG' : '+';
+  return (
+    <span
+      aria-hidden
+      className={[
+        'inline-flex h-12 w-10 items-center justify-center rounded-md text-[10px] font-bold tracking-wider',
+        kind === 'empty'
+          ? 'border border-dashed border-stroke-strong text-text-3'
+          : 'bg-elevated text-text shadow-sm',
+      ].join(' ')}
+    >
+      {label}
+    </span>
+  );
+}
 
-      <p className="text-center text-xs text-zinc-600 mt-3">
-        Not legal advice — pattern matching only. Always consult a qualified attorney for legal decisions.
-      </p>
-    </div>
+function Spinner() {
+  return (
+    <span
+      aria-hidden
+      className="inline-block h-4 w-4 rounded-full border-2 border-current border-t-transparent"
+      style={{ animation: 'spin 0.9s linear infinite' }}
+    >
+      <style jsx>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+      `}</style>
+    </span>
   );
 }

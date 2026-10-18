@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FF5A4E"/>
+      <stop offset="0.55" stop-color="#E8202A"/>
+      <stop offset="1" stop-color="#B8000F"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.18"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="glyph">
+      <rect width="1024" height="1024" fill="black"/>
+      <!-- pole -->
+      <rect x="318" y="196" width="42" height="632" rx="21" fill="white"/>
+      <!-- waving cloth -->
+      <path fill="white" d="
+        M 352 250
+        C 470 198, 600 304, 742 252
+        L 742 544
+        C 600 596, 470 490, 352 542
+        Z"/>
+      <!-- redacted clause lines (holes) -->
+      <rect x="424" y="338" width="240" height="46" rx="23" fill="black"/>
+      <rect x="424" y="430" width="166" height="46" rx="23" fill="black"/>
+    </mask>
+  </defs>
+
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect width="1024" height="1024" fill="url(#sheen)"/>
+
+  <!-- soft drop shadow for the glyph -->
+  <g mask="url(#glyph)" transform="translate(0,14)">
+    <rect width="1024" height="1040" fill="#7A0009" opacity="0.35"/>
+  </g>
+  <!-- glyph -->
+  <g mask="url(#glyph)">
+    <rect width="1024" height="1024" fill="#FFFFFF"/>
+  </g>
+</svg>

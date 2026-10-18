@@ -1,0 +1,358 @@
+{
+  "common": {
+    "loading": "Cargando…",
+    "of": "de",
+    "cancel": "Cancelar"
+  },
+  "header": {
+    "brandAria": "Is This Clause Normal? — inicio",
+    "brandName": "Is This Clause Normal?",
+    "howItWorks": "Cómo funciona",
+    "history": "Historial",
+    "tryIt": "Pruébalo",
+    "signIn": "Iniciar sesión",
+    "signedInAs": "Sesión iniciada como",
+    "settings": "Ajustes",
+    "signOut": "Cerrar sesión",
+    "chipBYOK": "Clave activa",
+    "chipBYOKTooltip": "Tu clave de API está activa para: {providers}",
+    "chipLimitReached": "Límite alcanzado",
+    "chipLimitTooltip": "Has usado tus análisis gratuitos. Inicia sesión o añade tu clave para continuar.",
+    "chipFreeScans": "{count, plural, one {# análisis gratuito} other {# análisis gratuitos}}",
+    "chipFreeTooltip": "{remaining} de {total} {total, plural, one {análisis} other {análisis}} gratuitos {signedIn, select, true {} other {anónimos }}restantes",
+    "language": "Idioma",
+    "languageSwitcherAria": "Elegir idioma de la interfaz"
+  },
+  "footer": {
+    "tagline": "Una herramienta de coincidencia de patrones para freelancers, fundadores y cualquiera a punto de firmar algo que no escribió.",
+    "columnProduct": "Producto",
+    "columnUseIt": "Úsalo",
+    "columnLegal": "Legal",
+    "linkHowItWorks": "Cómo funciona",
+    "linkCoverage": "Cobertura",
+    "linkCounterAgreement": "Contrapropuesta",
+    "linkProviders": "Proveedores",
+    "linkStartScan": "Iniciar un análisis",
+    "linkHistory": "Historial (local)",
+    "linkNotLegalAdvice": "No es asesoría legal",
+    "linkHowTextUsed": "Cómo se usa tu texto",
+    "disclaimerTitle": "Coincidencia de patrones — no asesoría legal.",
+    "disclaimerBody": "Esta herramienta marca cláusulas que difieren de las normas comunes del sector; no ofrece opiniones legales y no puede sustituir a un abogado cualificado. El texto del contrato que envías se transmite al proveedor de IA que elijas para su análisis. Las decisiones de firmar, negociar o retirarte son tuyas y solo tuyas.",
+    "copyright": "© {year} Is This Clause Normal?"
+  },
+  "hero": {
+    "eyebrow": "Coincidencia de patrones · No asesoría legal",
+    "title": "Sabe qué vas a firmar.",
+    "subtitle": "Pega cualquier contrato. En segundos, sacamos a la luz las cláusulas agresivas, las comparamos con las normas del sector y redactamos una contrapropuesta que tu abogado puede editar.",
+    "ctaPrimary": "Analizar un contrato",
+    "ctaSecondary": "Ver cómo funciona",
+    "scrollLabel": "Desplazar"
+  },
+  "scan": {
+    "sectionEyebrow": "Análisis",
+    "sectionTitle": "Pruébalo con tu contrato",
+    "sectionSubtitle": "Pega el texto o sube un archivo. No lo guardamos — tu texto va directamente al proveedor que elijas y vuelve a tu pantalla.",
+    "tabPaste": "Pegar texto",
+    "tabUpload": "Subir archivo",
+    "supportedFormats": "PDF · Word · imagen · texto plano",
+    "pasteePlaceholder": "Pega aquí el texto de tu contrato…",
+    "trySample": "Prueba un ejemplo:",
+    "fileDropHint": "Suelta tu contrato, o",
+    "fileBrowse": "buscar",
+    "fileFormats": "PDF, Word, texto plano o imagen (hasta 10 MB)",
+    "fileRemove": "Quitar",
+    "fieldProvider": "Proveedor de IA",
+    "fieldModel": "Modelo",
+    "fieldLanguage": "Idioma",
+    "languageEnglish": "Inglés (predeterminado)",
+    "providerLoading": "Cargando proveedores…",
+    "providerNotConfigured": "{label} (no configurado)",
+    "warnNoVision": "{label} no puede leer imágenes. Cambia de proveedor o pega el texto.",
+    "warnNoPdf": "{label} no lee PDFs de forma nativa — se extraerá el texto antes de enviar.",
+    "submitIdle": "Analizar contrato",
+    "submitLoading": "Buscando señales de alerta…",
+    "submitDisclaimer": "No es asesoría legal — solo coincidencia de patrones. Consulta siempre a un abogado cualificado."
+  },
+  "analyzing": {
+    "headingReading": "Leyendo tu contrato",
+    "headingAnalyzing": "Analizando cláusulas",
+    "headingMissing": "Buscando protecciones ausentes",
+    "headingTranslating": "Traduciendo al {language}",
+    "headingFinalizing": "Compilando hallazgos",
+    "subAnalyzing": "Revisando nueve categorías de normas del sector.",
+    "subMissing": "Comprobando qué cláusulas protectoras faltan.",
+    "subTranslating": "Sarvam está localizando el resumen y la recomendación.",
+    "subFinalizing": "Casi listo — ensamblando el resultado.",
+    "counts": "{findings, plural, =0 {} one {# hallazgo} other {# hallazgos}}{both, select, true { · } other {}}{missing, plural, =0 {} one {# ausente} other {# ausentes}}",
+    "footerLive": "La barra de arriba está en vivo — las categorías se rellenan mientras el modelo escribe hallazgos para ellas.",
+    "footerAlmost": "Casi listo."
+  },
+  "lockout": {
+    "eyebrowAnon": "Análisis gratuito usado",
+    "eyebrowSigned": "Análisis gratuitos usados",
+    "titleAnon": "Has usado tu análisis gratuito",
+    "titleSigned": "Has usado tus análisis gratuitos",
+    "bodyAnon": "Inicia sesión para desbloquear 2 análisis gratuitos más, o trae tu propia clave de API para un análisis ilimitado en tu cuenta.",
+    "bodySigned": "Añade tu propia clave de API para seguir analizando al coste del proveedor — tu clave, tu factura, sin límites.",
+    "ctaSignIn": "Iniciar sesión",
+    "ctaBYOK": "Usa tu propia clave",
+    "ctaAddKey": "Añade tu clave de API",
+    "ctaBYOKTooltip": "Inicia sesión primero, luego añade una clave en Ajustes",
+    "usedSummaryAnon": "{used} de {total} {total, plural, one {análisis} other {análisis}} {total, plural, one {anónimo} other {anónimos}} {total, plural, one {usado} other {usados}}.",
+    "usedSummarySigned": "{used} de {total} {total, plural, one {análisis gratuito} other {análisis gratuitos}} {total, plural, one {usado} other {usados}}."
+  },
+  "auth": {
+    "title": "Inicia sesión para continuar",
+    "subtitle": "Consigue 2 análisis gratuitos más en tu cuenta. Sin tarjeta, sin spam.",
+    "oauthGoogle": "Continuar con Google",
+    "oauthGitHub": "Continuar con GitHub",
+    "oauthSetupPending": "(configuración pendiente)",
+    "oauthDisabledTooltip": "Habilita {provider} en Supabase Auth → Providers para usar esto",
+    "or": "o",
+    "emailLabel": "Correo electrónico",
+    "emailPlaceholder": "tu@ejemplo.com",
+    "sendLink": "Enviar enlace mágico",
+    "sending": "Enviando…",
+    "checkEmailTitle": "Revisa tu correo",
+    "checkEmailBody": "Enviamos un enlace de inicio de sesión a <strong>{email}</strong>. Haz clic para terminar — puedes cerrar esta ventana.",
+    "termsDisclaimer": "Al iniciar sesión aceptas que podemos almacenar tus análisis de contratos asociados a tu cuenta. Puedes eliminarlos en cualquier momento.",
+    "errorGeneric": "No se pudo enviar el enlace.",
+    "errorOAuth": "Inicio de sesión fallido. Por favor, inténtalo de nuevo."
+  },
+  "errors": {
+    "analysisFailed": "Análisis fallido. Por favor, inténtalo de nuevo.",
+    "noStreaming": "Tu navegador no admite streaming.",
+    "analysisEndedNoResult": "El análisis terminó sin resultado. Por favor, inténtalo de nuevo.",
+    "network": "Error de red. Comprueba tu conexión e inténtalo de nuevo."
+  },
+  "coverage": {
+    "eyebrow": "Cobertura",
+    "title": "Nueve categorías. Cada cláusula.",
+    "subtitle": "Cada análisis revisa los patrones que los abogados suelen marcar, además de los modernos que aún no — derechos de entrenamiento de IA, exclusividad excesiva, propiedad de los datos.",
+    "categories": {
+      "payment": {
+        "title": "Pagos y Finanzas",
+        "note": "Trampas net-90, tarifas ocultas, retenciones."
+      },
+      "ip": {
+        "title": "Propiedad Intelectual",
+        "note": "Trabajo previo, derechos morales, derechos de entrenamiento IA."
+      },
+      "restrictions": {
+        "title": "Restricciones",
+        "note": "No competencia, exclusividad, límites geográficos."
+      },
+      "scope": {
+        "title": "Alcance y Entregables",
+        "note": "Revisiones ilimitadas, entregables vagos."
+      },
+      "termination": {
+        "title": "Terminación y Salida",
+        "note": "Bloqueos, ausencia de kill-fees, plazos de aviso fuera de control."
+      },
+      "liability": {
+        "title": "Responsabilidad y Riesgo",
+        "note": "Daños sin límite, indemnización, cargas de seguros."
+      },
+      "dispute": {
+        "title": "Resolución de Disputas",
+        "note": "Selección de foro, arbitraje obligatorio, renuncias de demanda colectiva."
+      },
+      "data_privacy": {
+        "title": "Datos y Privacidad",
+        "note": "Propiedad de datos, retención, excepciones para datos de entrenamiento."
+      },
+      "exclusivity": {
+        "title": "Exclusividad",
+        "note": "Cláusulas de fuente única, alcance de conflicto de interés."
+      }
+    }
+  },
+  "counter": {
+    "eyebrow": "Contrapropuesta",
+    "titlePrefix": "Envía la versión ",
+    "titleEmphasis": "que tú",
+    "titleSuffix": " firmarías.",
+    "subtitle": "Un clic redacta un contrato revisado que aborda cada hallazgo — y un diff redline limpio. Descarga ambos como PDF. Entrégalos a tu abogado, a la otra parte, o a ti mismo.",
+    "bullet1": "PDF revisado en prosa clara, listo para imprimir",
+    "bullet2": "PDF redline con adiciones y eliminaciones línea por línea",
+    "bullet3": "Elige un modelo más potente solo para el borrador (Opus, GPT-4o, Gemini Pro)",
+    "bullet4": "Aviso legal estampado en cada página — nunca asesoría legal",
+    "diffTitle": "Diff redline",
+    "diffVersion": "v1 → contraprop",
+    "diffFilename": "counter-agreement.pdf"
+  },
+  "providers": {
+    "eyebrow": "Tu modelo, tus claves",
+    "title": "Trae tu propia inteligencia.",
+    "subtitle": "Ejecuta el análisis con Anthropic, OpenAI, Google, o un modelo Ollama local. Elige el más barato para el triaje y uno más potente para el borrador. Tu texto solo va donde tú elijas.",
+    "note": "Solo aparecen en el selector los proveedores que has configurado."
+  },
+  "results": {
+    "overallEyebrow": "General",
+    "riskScoreEyebrow": "Puntuación de riesgo",
+    "riskScoreOf10": "{score} de 10",
+    "recommendationEyebrow": "Recomendación",
+    "countDealBreakers": "Inaceptables",
+    "countNegotiate": "Negociar",
+    "countAcceptable": "Aceptable",
+    "findingsKicker": "Hallazgos",
+    "findingsTitle": "{count, plural, one {# cláusula examinada} other {# cláusulas examinadas}}",
+    "missingKicker": "Protecciones faltantes",
+    "missingTitle": "{count, plural, one {# cláusula que no está pero debería estar} other {# cláusulas que no están pero deberían estar}}",
+    "footerDisclaimer": "No es asesoramiento legal — solo coincidencia de patrones. Siempre consulte a un abogado calificado.",
+    "scanAnother": "Analizar otro contrato",
+    "providerModel": "{provider} · {model}"
+  },
+  "missingClause": {
+    "suggestedStarterEyebrow": "Lenguaje inicial sugerido"
+  },
+  "findingCard": {
+    "clauseInContract": "Cláusula en el contrato",
+    "whyThisMatters": "Por qué esto importa",
+    "industryNorm": "Norma de la industria",
+    "suggestedLanguage": "Lenguaje sugerido",
+    "whyThisIsFine": "Por qué esto está bien",
+    "copySuggested": "Copiar lenguaje sugerido",
+    "copied": "✓ Copiado"
+  },
+  "severity": {
+    "red": "Inaceptable",
+    "yellow": "Negociar",
+    "green": "Aceptable"
+  },
+  "negotiability": {
+    "high": "Generalmente negociable",
+    "medium": "A veces negociable",
+    "low": "Raramente negociable"
+  },
+  "categories": {
+    "payment": "Pago y Finanzas",
+    "ip": "Propiedad Intelectual",
+    "restrictions": "Restricciones",
+    "scope": "Alcance y Entregables",
+    "termination": "Terminación y Salida",
+    "liability": "Responsabilidad y Riesgo",
+    "dispute": "Resolución de Disputas",
+    "data_privacy": "Datos y Privacidad",
+    "exclusivity": "Exclusividad"
+  },
+  "contractTypes": {
+    "freelance_services": "Servicios Freelance",
+    "employment": "Empleo",
+    "saas": "SaaS",
+    "nda": "NDA",
+    "vendor": "Proveedor",
+    "other": "Otro"
+  },
+  "riskLevels": {
+    "low": {
+      "label": "Riesgo Bajo",
+      "description": "Generalmente seguro para firmar con consideraciones menores."
+    },
+    "medium": {
+      "label": "Riesgo Medio",
+      "description": "Varios puntos que vale la pena negociar antes de firmar."
+    },
+    "high": {
+      "label": "Riesgo Alto",
+      "description": "Múltiples señales de alerta — negocie antes de firmar."
+    },
+    "critical": {
+      "label": "Riesgo Crítico",
+      "description": "No firme sin cambios significativos."
+    }
+  },
+  "history": {
+    "title": "Análisis recientes",
+    "subtitle": "Almacenado localmente en este dispositivo.",
+    "clearAll": "Borrar todo",
+    "redFlags": "{count, plural, one {# señal de alerta} other {# señales de alerta}}"
+  },
+  "counterAgreement": {
+    "eyebrow": "Contraacuerdo",
+    "title": "Redacte una versión que usted firmaría",
+    "subtitle": "Reescriba el contrato abordando cada hallazgo anterior. Previsualice el resultado en línea, luego descargue un PDF limpio o un borrador con cambios marcados para entregar a su contraparte.",
+    "fieldProviderLabel": "Redactor — proveedor",
+    "fieldModelLabel": "Redactor — modelo",
+    "providerLoading": "Cargando…",
+    "providerNotConfiguredSuffix": "(no configurado)",
+    "modelHelp": "Los modelos más avanzados (Opus, GPT-4o, Gemini Pro) generalmente producen borradores más sólidos. Por defecto usa el modelo de análisis.",
+    "draftCta": "Redactar contraacuerdo con {model} →",
+    "draftCtaFallbackModel": "modelo seleccionado",
+    "drafting": "Redactando contrato revisado (30–60s)…",
+    "drafterChanged": "Redactor cambiado. El borrador actual fue realizado por",
+    "redraft": "Volver a redactar con nuevo modelo",
+    "redrafting": "Volviendo a redactar…",
+    "changesProposed": "{count, plural, one {# cambio propuesto} other {# cambios propuestos}}",
+    "changeAdded": "añadido",
+    "changeRemoved": "eliminado",
+    "changeModified": "modificado",
+    "tabRevised": "Revisado",
+    "tabRedline": "Con cambios marcados",
+    "downloadRevised": "↓ Descargar PDF revisado",
+    "downloadRedline": "↓ Descargar PDF con cambios marcados",
+    "renderingPdf": "Generando PDF…",
+    "draftedByPrefix": "Redactado por",
+    "draftDisclaimer": "Borrador generado por IA solo para negociación — no es asesoramiento legal, sin garantía. Usted asume plena responsabilidad por su uso. Solicite la revisión de un abogado calificado antes de firmar.",
+    "errorGenerate": "No se pudo generar el contraacuerdo.",
+    "errorPdf": "No se pudo generar el PDF.",
+    "errorNetworkGenerate": "Error de red al generar el contraacuerdo.",
+    "errorNetworkPdf": "Error de red al descargar el PDF.",
+    "fallbackEyebrow": "Contraacuerdo — a un paso",
+    "fallbackTitle": "Necesitamos el texto original para redactar una contrapropuesta",
+    "fallbackSubtitle": "Este resultado fue cargado desde el historial antes de que comenzáramos a guardar el texto del contrato. Proporcione el original a continuación y el redactor se desbloqueará de inmediato — sin necesidad de volver a analizar.",
+    "fallbackPaste": "Pegar texto del contrato",
+    "fallbackUpload": "Subir archivo",
+    "fallbackPastePlaceholder": "Pegue aquí el texto completo del contrato…",
+    "fallbackUnlock": "Desbloquear contraacuerdo",
+    "fallbackPasteTooShort": "Se necesitan al menos 50 caracteres del texto del contrato.",
+    "fallbackExtracting": "Extrayendo (las imágenes usan OCR de visión)…",
+    "fallbackClickOrDrop": "Haga clic o suelte un archivo",
+    "fallbackFileFormats": "PDF · Word · texto · imagen (hasta 10 MB)",
+    "fallbackErrorExtract": "No se pudo extraer el texto del archivo.",
+    "fallbackErrorTooShort": "El texto extraído es demasiado corto para ser un contrato.",
+    "fallbackErrorNetwork": "Error de red al extraer el texto."
+  },
+  "settings": {
+    "loading": "Cargando…",
+    "eyebrow": "Configuración",
+    "title": "Sus claves API",
+    "subtitle": "Agregue una clave de proveedor y sus análisis se ejecutarán en su cuenta al costo del proveedor — más allá del nivel gratuito, sin cargos adicionales de nuestra parte. Las claves están cifradas en reposo y nunca se muestran después de guardarlas."
+  },
+  "byok": {
+    "loading": "Cargando sus claves…",
+    "errorLoad": "No se pudieron cargar las claves.",
+    "active": "Activa",
+    "remove": "Eliminar",
+    "removing": "Eliminando…",
+    "removeConfirm": "¿Eliminar su clave de {provider}? Los análisis futuros recurrirán al nivel gratuito o fallarán.",
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "replace": "Reemplazar",
+    "replacePlaceholder": "Reemplazar clave ({sample})",
+    "hide": "Ocultar",
+    "show": "Mostrar",
+    "msgSaved": "Clave guardada.",
+    "msgUpdated": "Clave actualizada.",
+    "msgRemoved": "Clave eliminada.",
+    "errSave": "Error al guardar.",
+    "errSaveGeneric": "No se pudo guardar la clave.",
+    "errDelete": "Error al eliminar.",
+    "errDeleteGeneric": "No se pudo eliminar la clave.",
+    "providers": {
+      "anthropic": {
+        "label": "Anthropic (Claude)",
+        "help": "Obtenga la suya en console.anthropic.com → Settings → API Keys"
+      },
+      "openai": {
+        "label": "OpenAI",
+        "help": "Obtenga la suya en platform.openai.com → API Keys"
+      },
+      "google": {
+        "label": "Google (Gemini)",
+        "help": "Obtenga la suya en aistudio.google.com/apikey"
+      }
+    }
+  }
+}

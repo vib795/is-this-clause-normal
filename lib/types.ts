@@ -43,6 +43,9 @@ export interface AnalysisResult {
   missing_clauses: MissingClause[];
   analyzed_at: string;
   contract_snippet: string; // first ~200 chars for display
+  contract_text?: string; // full extracted text, used by counter-agreement generation
+  provider?: string; // provider used for analysis (e.g. "anthropic")
+  model?: string; // model id used for analysis
   input_language?: string; // e.g. "hi-IN", present when Indian language was selected
 }
 
@@ -67,42 +70,44 @@ export const CONTRACT_TYPE_LABELS: Record<ContractType, string> = {
   other: 'Other',
 };
 
+// Theme-aware via app/globals.css design tokens (--color-sev-*). Each
+// class resolves to a CSS variable that switches between light and dark.
 export const SEVERITY_CONFIG = {
   red: {
     label: 'Deal-Breaker',
-    color: 'text-red-400',
-    bg: 'bg-red-950/40',
-    border: 'border-red-800/50',
-    dot: 'bg-red-500',
-    badge: 'bg-red-950 text-red-400 border border-red-800/60',
+    color: 'text-sev-red',
+    bg: 'bg-sev-red-soft',
+    border: 'border-sev-red-stroke',
+    dot: 'bg-sev-red',
+    badge: 'bg-sev-red-soft text-sev-red border border-sev-red-stroke',
   },
   yellow: {
     label: 'Negotiate',
-    color: 'text-amber-400',
-    bg: 'bg-amber-950/30',
-    border: 'border-amber-800/40',
-    dot: 'bg-amber-400',
-    badge: 'bg-amber-950 text-amber-400 border border-amber-800/60',
+    color: 'text-sev-yellow',
+    bg: 'bg-sev-yellow-soft',
+    border: 'border-sev-yellow-stroke',
+    dot: 'bg-sev-yellow',
+    badge: 'bg-sev-yellow-soft text-sev-yellow border border-sev-yellow-stroke',
   },
   green: {
     label: 'Acceptable',
-    color: 'text-emerald-400',
-    bg: 'bg-emerald-950/20',
-    border: 'border-emerald-800/30',
-    dot: 'bg-emerald-500',
-    badge: 'bg-emerald-950 text-emerald-400 border border-emerald-800/60',
+    color: 'text-sev-green',
+    bg: 'bg-sev-green-soft',
+    border: 'border-sev-green-stroke',
+    dot: 'bg-sev-green',
+    badge: 'bg-sev-green-soft text-sev-green border border-sev-green-stroke',
   },
 };
 
 export const NEGOTIABILITY_CONFIG = {
-  high:   { label: 'Usually negotiable',   color: 'text-emerald-400', badge: 'bg-emerald-950 text-emerald-400 border border-emerald-800/60' },
-  medium: { label: 'Sometimes negotiable', color: 'text-amber-400',   badge: 'bg-amber-950 text-amber-400 border border-amber-800/60' },
-  low:    { label: 'Rarely negotiable',    color: 'text-slate-400',   badge: 'bg-slate-800 text-slate-400 border border-slate-700/60' },
+  high:   { label: 'Usually negotiable',   color: 'text-sev-green', badge: 'bg-sev-green-soft text-sev-green border border-sev-green-stroke' },
+  medium: { label: 'Sometimes negotiable', color: 'text-sev-yellow', badge: 'bg-sev-yellow-soft text-sev-yellow border border-sev-yellow-stroke' },
+  low:    { label: 'Rarely negotiable',    color: 'text-text-3',     badge: 'bg-glass text-text-3 border border-stroke' },
 };
 
 export const RISK_CONFIG: Record<OverallRisk, { label: string; color: string; description: string }> = {
-  low: { label: 'Low Risk', color: 'text-emerald-400', description: 'Generally safe to sign with minor considerations.' },
-  medium: { label: 'Medium Risk', color: 'text-amber-400', description: 'Several items worth negotiating before signing.' },
-  high: { label: 'High Risk', color: 'text-orange-400', description: 'Multiple red flags — negotiate before signing.' },
-  critical: { label: 'Critical Risk', color: 'text-red-400', description: 'Do not sign without significant changes.' },
+  low:      { label: 'Low Risk',      color: 'text-sev-green',  description: 'Generally safe to sign with minor considerations.' },
+  medium:   { label: 'Medium Risk',   color: 'text-sev-yellow', description: 'Several items worth negotiating before signing.' },
+  high:     { label: 'High Risk',     color: 'text-sev-orange', description: 'Multiple red flags — negotiate before signing.' },
+  critical: { label: 'Critical Risk', color: 'text-sev-red',    description: 'Do not sign without significant changes.' },
 };

@@ -1,0 +1,358 @@
+{
+  "common": {
+    "loading": "Lädt…",
+    "of": "von",
+    "cancel": "Abbrechen"
+  },
+  "header": {
+    "brandAria": "Is This Clause Normal? — Startseite",
+    "brandName": "Is This Clause Normal?",
+    "howItWorks": "So funktioniert es",
+    "history": "Verlauf",
+    "tryIt": "Ausprobieren",
+    "signIn": "Anmelden",
+    "signedInAs": "Angemeldet als",
+    "settings": "Einstellungen",
+    "signOut": "Abmelden",
+    "chipBYOK": "Schlüssel aktiv",
+    "chipBYOKTooltip": "Dein API-Schlüssel ist aktiv für: {providers}",
+    "chipLimitReached": "Limit erreicht",
+    "chipLimitTooltip": "Du hast deine kostenlosen Scans verbraucht. Melde dich an oder füge einen Schlüssel hinzu.",
+    "chipFreeScans": "{count, plural, one {# kostenloser Scan} other {# kostenlose Scans}}",
+    "chipFreeTooltip": "{remaining} von {total} {signedIn, select, true {} other {anonymen }}kostenlosen Scans verbleibend",
+    "language": "Sprache",
+    "languageSwitcherAria": "Oberflächensprache wählen"
+  },
+  "footer": {
+    "tagline": "Ein Mustererkennungs-Tool für Freelancer, Gründer und alle, die etwas unterschreiben sollen, das sie nicht geschrieben haben.",
+    "columnProduct": "Produkt",
+    "columnUseIt": "Nutzung",
+    "columnLegal": "Rechtliches",
+    "linkHowItWorks": "So funktioniert es",
+    "linkCoverage": "Abdeckung",
+    "linkCounterAgreement": "Gegenvorschlag",
+    "linkProviders": "Anbieter",
+    "linkStartScan": "Scan starten",
+    "linkHistory": "Verlauf (lokal)",
+    "linkNotLegalAdvice": "Keine Rechtsberatung",
+    "linkHowTextUsed": "Verwendung deines Textes",
+    "disclaimerTitle": "Mustererkennung — keine Rechtsberatung.",
+    "disclaimerBody": "Dieses Tool markiert Klauseln, die von gängigen Branchenstandards abweichen; es bietet keine Rechtsmeinungen und kann keinen qualifizierten Anwalt ersetzen. Der von dir übermittelte Vertragstext wird zur Analyse an den von dir gewählten KI-Anbieter gesendet. Entscheidungen zum Unterschreiben, Verhandeln oder Ablehnen liegen allein bei dir.",
+    "copyright": "© {year} Is This Clause Normal?"
+  },
+  "hero": {
+    "eyebrow": "Mustererkennung · Keine Rechtsberatung",
+    "title": "Wisse, was du gleich unterschreibst.",
+    "subtitle": "Füge einen beliebigen Vertrag ein. In Sekunden zeigen wir aggressive Klauseln, vergleichen sie mit Branchenstandards und entwerfen einen Gegenvorschlag, den dein Anwalt bearbeiten kann.",
+    "ctaPrimary": "Vertrag scannen",
+    "ctaSecondary": "So funktioniert es",
+    "scrollLabel": "Scrollen"
+  },
+  "scan": {
+    "sectionEyebrow": "Scan",
+    "sectionTitle": "Probiere es mit deinem Vertrag",
+    "sectionSubtitle": "Füge den Text ein oder lade eine Datei hoch. Wir speichern ihn nicht — dein Text geht direkt an den gewählten Anbieter und zurück auf deinen Bildschirm.",
+    "tabPaste": "Text einfügen",
+    "tabUpload": "Datei hochladen",
+    "supportedFormats": "PDF · Word · Bild · Klartext",
+    "pasteePlaceholder": "Füge deinen Vertragstext hier ein…",
+    "trySample": "Beispiel ausprobieren:",
+    "fileDropHint": "Lege deinen Vertrag hier ab, oder",
+    "fileBrowse": "durchsuchen",
+    "fileFormats": "PDF, Word, Klartext oder Bild (bis 10 MB)",
+    "fileRemove": "Entfernen",
+    "fieldProvider": "KI-Anbieter",
+    "fieldModel": "Modell",
+    "fieldLanguage": "Sprache",
+    "languageEnglish": "Englisch (Standard)",
+    "providerLoading": "Anbieter werden geladen…",
+    "providerNotConfigured": "{label} (nicht konfiguriert)",
+    "warnNoVision": "{label} kann keine Bilder lesen. Wechsle den Anbieter oder füge Text ein.",
+    "warnNoPdf": "{label} liest PDFs nicht nativ — der Text wird vor dem Senden extrahiert.",
+    "submitIdle": "Vertrag scannen",
+    "submitLoading": "Suche nach Warnsignalen…",
+    "submitDisclaimer": "Keine Rechtsberatung — nur Mustererkennung. Konsultiere stets einen qualifizierten Anwalt."
+  },
+  "analyzing": {
+    "headingReading": "Lese deinen Vertrag",
+    "headingAnalyzing": "Analysiere Klauseln",
+    "headingMissing": "Suche fehlende Schutzklauseln",
+    "headingTranslating": "Übersetze ins {language}",
+    "headingFinalizing": "Stelle Befunde zusammen",
+    "subAnalyzing": "Gehe neun Kategorien von Branchenstandards durch.",
+    "subMissing": "Prüfe, welche Schutzklauseln fehlen.",
+    "subTranslating": "Sarvam lokalisiert Zusammenfassung und Empfehlung.",
+    "subFinalizing": "Fast fertig — Ergebnis wird zusammengestellt.",
+    "counts": "{findings, plural, =0 {} one {# Befund} other {# Befunde}}{both, select, true { · } other {}}{missing, plural, =0 {} one {# fehlt} other {# fehlen}}",
+    "footerLive": "Die Leiste oben ist live — Kategorien füllen sich, während das Modell Befunde schreibt.",
+    "footerAlmost": "Fast geschafft."
+  },
+  "lockout": {
+    "eyebrowAnon": "Kostenloser Scan verbraucht",
+    "eyebrowSigned": "Kostenlose Scans verbraucht",
+    "titleAnon": "Du hast deinen kostenlosen Scan verbraucht",
+    "titleSigned": "Du hast deine kostenlosen Scans verbraucht",
+    "bodyAnon": "Melde dich an, um 2 weitere kostenlose Scans freizuschalten, oder hinterlege deinen eigenen API-Schlüssel für unbegrenzte Analysen.",
+    "bodySigned": "Hinterlege deinen eigenen API-Schlüssel, um zum Anbieterpreis weiter zu scannen — dein Schlüssel, deine Rechnung, kein Limit.",
+    "ctaSignIn": "Anmelden",
+    "ctaBYOK": "Eigenen API-Schlüssel nutzen",
+    "ctaAddKey": "API-Schlüssel hinzufügen",
+    "ctaBYOKTooltip": "Erst anmelden, dann einen Schlüssel in den Einstellungen hinzufügen",
+    "usedSummaryAnon": "{used} von {total} kostenlose{total, plural, one {r} other {n}} anonyme{total, plural, one {r} other {n}} Scan{total, plural, one {} other {s}} verbraucht.",
+    "usedSummarySigned": "{used} von {total} kostenlose{total, plural, one {r} other {n}} Scan{total, plural, one {} other {s}} verbraucht."
+  },
+  "auth": {
+    "title": "Melde dich an, um fortzufahren",
+    "subtitle": "Erhalte 2 weitere kostenlose Scans auf dein Konto. Keine Karte, kein Spam.",
+    "oauthGoogle": "Mit Google fortfahren",
+    "oauthGitHub": "Mit GitHub fortfahren",
+    "oauthSetupPending": "(Einrichtung ausstehend)",
+    "oauthDisabledTooltip": "Aktiviere {provider} in Supabase Auth → Providers, um dies zu nutzen",
+    "or": "oder",
+    "emailLabel": "E-Mail",
+    "emailPlaceholder": "du@beispiel.de",
+    "sendLink": "Magic Link senden",
+    "sending": "Wird gesendet…",
+    "checkEmailTitle": "Prüfe deine E-Mails",
+    "checkEmailBody": "Wir haben einen Anmeldelink an <strong>{email}</strong> gesendet. Klicke darauf, um die Anmeldung abzuschließen — dieses Fenster kannst du schließen.",
+    "termsDisclaimer": "Mit der Anmeldung erlaubst du uns, deine Vertrags-Scans deinem Konto zuzuordnen. Du kannst sie jederzeit löschen.",
+    "errorGeneric": "Link konnte nicht gesendet werden.",
+    "errorOAuth": "Anmeldung fehlgeschlagen. Bitte erneut versuchen."
+  },
+  "errors": {
+    "analysisFailed": "Analyse fehlgeschlagen. Bitte erneut versuchen.",
+    "noStreaming": "Streaming wird von deinem Browser nicht unterstützt.",
+    "analysisEndedNoResult": "Analyse endete ohne Ergebnis. Bitte erneut versuchen.",
+    "network": "Netzwerkfehler. Bitte Verbindung prüfen und erneut versuchen."
+  },
+  "coverage": {
+    "eyebrow": "Abdeckung",
+    "title": "Neun Kategorien. Jede Klausel.",
+    "subtitle": "Jeder Scan prüft die Muster, die Anwälte üblicherweise markieren, plus die modernen, die sie noch nicht erfassen — KI-Trainingsrechte, ausufernde Exklusivität, Datenrechte.",
+    "categories": {
+      "payment": {
+        "title": "Zahlung & Finanzen",
+        "note": "Net-90-Fallen, versteckte Gebühren, Einbehalte."
+      },
+      "ip": {
+        "title": "Geistiges Eigentum",
+        "note": "Vorbestehende Arbeiten, Urheberpersönlichkeitsrechte, KI-Trainingsrechte."
+      },
+      "restrictions": {
+        "title": "Einschränkungen",
+        "note": "Wettbewerbsverbote, Exklusivität, geografische Grenzen."
+      },
+      "scope": {
+        "title": "Umfang & Leistungen",
+        "note": "Unbegrenzte Überarbeitungen, vage Leistungsbeschreibungen."
+      },
+      "termination": {
+        "title": "Kündigung & Ausstieg",
+        "note": "Lock-ins, fehlende Kill-Fees, überlange Kündigungsfristen."
+      },
+      "liability": {
+        "title": "Haftung & Risiko",
+        "note": "Unbegrenzte Schadensersatzansprüche, Freistellung, Versicherungsauflagen."
+      },
+      "dispute": {
+        "title": "Streitbeilegung",
+        "note": "Gerichtsstand, verpflichtende Schiedsgerichtsbarkeit, Sammelklage-Verzicht."
+      },
+      "data_privacy": {
+        "title": "Daten & Datenschutz",
+        "note": "Datenrechte, Speicherung, Ausnahmen für Trainingsdaten."
+      },
+      "exclusivity": {
+        "title": "Exklusivität",
+        "note": "Single-Source-Klauseln, Reichweite von Interessenkonflikten."
+      }
+    }
+  },
+  "counter": {
+    "eyebrow": "Gegenvorschlag",
+    "titlePrefix": "Sende die Version, ",
+    "titleEmphasis": "die du",
+    "titleSuffix": " unterschreiben würdest.",
+    "subtitle": "Ein Klick entwirft einen überarbeiteten Vertrag, der jeden Befund adressiert — und ein sauberes Redline-Diff. Lade beide als PDF herunter. Gib sie deinem Anwalt, der Gegenseite oder dir selbst.",
+    "bullet1": "Überarbeitetes PDF in klarer Sprache, druckfertig",
+    "bullet2": "Redline-PDF mit zeilenweisen Ergänzungen und Löschungen",
+    "bullet3": "Wähle ein stärkeres Modell nur für den Entwurf (Opus, GPT-4o, Gemini Pro)",
+    "bullet4": "Haftungsausschluss auf jeder Seite — nie Rechtsberatung",
+    "diffTitle": "Redline-Diff",
+    "diffVersion": "v1 → Gegen",
+    "diffFilename": "counter-agreement.pdf"
+  },
+  "providers": {
+    "eyebrow": "Dein Modell, deine Schlüssel",
+    "title": "Bring deine eigene Intelligenz mit.",
+    "subtitle": "Führe den Scan mit Anthropic, OpenAI, Google oder einem lokalen Ollama-Modell aus. Wähle das günstigste fürs Triage und ein stärkeres für den Entwurf. Dein Text geht nur dorthin, wo du es willst.",
+    "note": "Nur konfigurierte Anbieter erscheinen im Wähler."
+  },
+  "results": {
+    "overallEyebrow": "Gesamt",
+    "riskScoreEyebrow": "Risikobewertung",
+    "riskScoreOf10": "{score} von 10",
+    "recommendationEyebrow": "Empfehlung",
+    "countDealBreakers": "Ausschlusskriterien",
+    "countNegotiate": "Verhandeln",
+    "countAcceptable": "Akzeptabel",
+    "findingsKicker": "Ergebnisse",
+    "findingsTitle": "{count, plural, one {# geprüfte Klausel} other {# geprüfte Klauseln}}",
+    "missingKicker": "Fehlende Schutzklauseln",
+    "missingTitle": "{count, plural, one {# Klausel, die fehlt, aber vorhanden sein sollte} other {# Klauseln, die fehlen, aber vorhanden sein sollten}}",
+    "footerDisclaimer": "Keine Rechtsberatung – nur Mustererkennung. Konsultieren Sie stets einen qualifizierten Anwalt.",
+    "scanAnother": "Weiteren Vertrag scannen",
+    "providerModel": "{provider} · {model}"
+  },
+  "missingClause": {
+    "suggestedStarterEyebrow": "Vorgeschlagene Einstiegsformulierung"
+  },
+  "findingCard": {
+    "clauseInContract": "Klausel im Vertrag",
+    "whyThisMatters": "Warum das wichtig ist",
+    "industryNorm": "Branchenstandard",
+    "suggestedLanguage": "Vorgeschlagene Formulierung",
+    "whyThisIsFine": "Warum das in Ordnung ist",
+    "copySuggested": "Vorgeschlagene Formulierung kopieren",
+    "copied": "✓ Kopiert"
+  },
+  "severity": {
+    "red": "Ausschlusskriterium",
+    "yellow": "Verhandeln",
+    "green": "Akzeptabel"
+  },
+  "negotiability": {
+    "high": "Meist verhandelbar",
+    "medium": "Manchmal verhandelbar",
+    "low": "Selten verhandelbar"
+  },
+  "categories": {
+    "payment": "Zahlung & Finanzen",
+    "ip": "Geistiges Eigentum",
+    "restrictions": "Einschränkungen",
+    "scope": "Umfang & Leistungen",
+    "termination": "Kündigung & Ausstieg",
+    "liability": "Haftung & Risiko",
+    "dispute": "Streitbeilegung",
+    "data_privacy": "Daten & Datenschutz",
+    "exclusivity": "Exklusivität"
+  },
+  "contractTypes": {
+    "freelance_services": "Freiberufliche Dienstleistungen",
+    "employment": "Anstellung",
+    "saas": "SaaS",
+    "nda": "NDA",
+    "vendor": "Lieferant",
+    "other": "Sonstiges"
+  },
+  "riskLevels": {
+    "low": {
+      "label": "Geringes Risiko",
+      "description": "Im Allgemeinen sicher zu unterzeichnen, mit geringfügigen Vorbehalten."
+    },
+    "medium": {
+      "label": "Mittleres Risiko",
+      "description": "Mehrere Punkte, die vor der Unterzeichnung verhandelt werden sollten."
+    },
+    "high": {
+      "label": "Hohes Risiko",
+      "description": "Mehrere Warnsignale – vor der Unterzeichnung verhandeln."
+    },
+    "critical": {
+      "label": "Kritisches Risiko",
+      "description": "Nicht ohne wesentliche Änderungen unterzeichnen."
+    }
+  },
+  "history": {
+    "title": "Letzte Scans",
+    "subtitle": "Lokal auf diesem Gerät gespeichert.",
+    "clearAll": "Alle löschen",
+    "redFlags": "{count, plural, one {# Warnsignal} other {# Warnsignale}}"
+  },
+  "counterAgreement": {
+    "eyebrow": "Gegenangebot",
+    "title": "Entwurf einer Version, die Sie unterzeichnen würden",
+    "subtitle": "Schreiben Sie den Vertrag unter Berücksichtigung aller obigen Ergebnisse neu. Zeigen Sie das Ergebnis direkt in der Vorschau an und laden Sie dann ein sauberes PDF oder einen Redline-Vergleich herunter, den Sie Ihrer Gegenpartei übergeben können.",
+    "fieldProviderLabel": "Verfasser – Anbieter",
+    "fieldModelLabel": "Verfasser – Modell",
+    "providerLoading": "Wird geladen…",
+    "providerNotConfiguredSuffix": "(nicht konfiguriert)",
+    "modelHelp": "Leistungsstärkere Modelle (Opus, GPT-4o, Gemini Pro) erstellen in der Regel bessere Entwürfe. Standardmäßig wird das Analysemodell verwendet.",
+    "draftCta": "Gegenvertrag mit {model} entwerfen →",
+    "draftCtaFallbackModel": "ausgewähltes Modell",
+    "drafting": "Überarbeiteter Vertrag wird erstellt (30–60 s)…",
+    "drafterChanged": "Verfasser geändert. Aktueller Entwurf wurde erstellt von",
+    "redraft": "Mit neuem Modell neu entwerfen",
+    "redrafting": "Wird neu entworfen…",
+    "changesProposed": "{count, plural, one {# vorgeschlagene Änderung} other {# vorgeschlagene Änderungen}}",
+    "changeAdded": "hinzugefügt",
+    "changeRemoved": "entfernt",
+    "changeModified": "geändert",
+    "tabRevised": "Überarbeitet",
+    "tabRedline": "Redline",
+    "downloadRevised": "↓ Überarbeitetes PDF herunterladen",
+    "downloadRedline": "↓ Redline-PDF herunterladen",
+    "renderingPdf": "PDF wird gerendert…",
+    "draftedByPrefix": "Verfasst von",
+    "draftDisclaimer": "KI-generierter Entwurf nur für Verhandlungszwecke – keine Rechtsberatung, keine Gewährleistung. Sie tragen die volle Verantwortung für die Verwendung. Lassen Sie den Entwurf vor der Unterzeichnung von einem qualifizierten Anwalt prüfen.",
+    "errorGenerate": "Gegenvertrag konnte nicht erstellt werden.",
+    "errorPdf": "PDF konnte nicht gerendert werden.",
+    "errorNetworkGenerate": "Netzwerkfehler beim Erstellen des Gegenvertrags.",
+    "errorNetworkPdf": "Netzwerkfehler beim Herunterladen des PDFs.",
+    "fallbackEyebrow": "Gegenvertrag – fast geschafft",
+    "fallbackTitle": "Wir benötigen den Originaltext, um einen Gegenvorschlag zu erstellen",
+    "fallbackSubtitle": "Dieses Ergebnis wurde aus dem Verlauf geladen, bevor wir begonnen haben, den Vertragstext zu speichern. Geben Sie den Originaltext unten ein, und der Verfasser wird sofort freigeschaltet – keine erneute Analyse erforderlich.",
+    "fallbackPaste": "Vertragstext einfügen",
+    "fallbackUpload": "Datei hochladen",
+    "fallbackPastePlaceholder": "Fügen Sie hier den vollständigen Vertragstext ein…",
+    "fallbackUnlock": "Gegenvertrag freischalten",
+    "fallbackPasteTooShort": "Es werden mindestens 50 Zeichen Vertragstext benötigt.",
+    "fallbackExtracting": "Wird extrahiert (Bilder verwenden Vision-OCR)…",
+    "fallbackClickOrDrop": "Klicken oder Datei ablegen",
+    "fallbackFileFormats": "PDF · Word · Text · Bild (bis zu 10 MB)",
+    "fallbackErrorExtract": "Text konnte nicht aus der Datei extrahiert werden.",
+    "fallbackErrorTooShort": "Der extrahierte Text ist zu kurz, um ein Vertrag zu sein.",
+    "fallbackErrorNetwork": "Netzwerkfehler beim Extrahieren des Textes."
+  },
+  "settings": {
+    "loading": "Wird geladen…",
+    "eyebrow": "Einstellungen",
+    "title": "Ihre API-Schlüssel",
+    "subtitle": "Fügen Sie einen Anbieterschlüssel hinzu, und Ihre Scans laufen auf Ihrem Konto zu Anbieterkosten – über das kostenlose Kontingent hinaus fallen keine zusätzlichen Gebühren von uns an. Schlüssel werden verschlüsselt gespeichert und nach dem Speichern nie mehr angezeigt."
+  },
+  "byok": {
+    "loading": "Ihre Schlüssel werden geladen…",
+    "errorLoad": "Schlüssel konnten nicht geladen werden.",
+    "active": "Aktiv",
+    "remove": "Entfernen",
+    "removing": "Wird entfernt…",
+    "removeConfirm": "Ihren {provider}-Schlüssel entfernen? Zukünftige Scans greifen auf das kostenlose Kontingent zurück oder schlagen fehl.",
+    "save": "Speichern",
+    "saving": "Wird gespeichert…",
+    "replace": "Ersetzen",
+    "replacePlaceholder": "Schlüssel ersetzen ({sample})",
+    "hide": "Verbergen",
+    "show": "Anzeigen",
+    "msgSaved": "Schlüssel gespeichert.",
+    "msgUpdated": "Schlüssel aktualisiert.",
+    "msgRemoved": "Schlüssel entfernt.",
+    "errSave": "Speichern fehlgeschlagen.",
+    "errSaveGeneric": "Schlüssel konnte nicht gespeichert werden.",
+    "errDelete": "Löschen fehlgeschlagen.",
+    "errDeleteGeneric": "Schlüssel konnte nicht entfernt werden.",
+    "providers": {
+      "anthropic": {
+        "label": "Anthropic (Claude)",
+        "help": "Ihren Schlüssel erhalten Sie unter console.anthropic.com → Settings → API Keys"
+      },
+      "openai": {
+        "label": "OpenAI",
+        "help": "Ihren Schlüssel erhalten Sie unter platform.openai.com → API Keys"
+      },
+      "google": {
+        "label": "Google (Gemini)",
+        "help": "Ihren Schlüssel erhalten Sie unter aistudio.google.com/apikey"
+      }
+    }
+  }
+}

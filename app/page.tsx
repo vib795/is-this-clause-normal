@@ -1,9 +1,24 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import ContractInput from '@/components/ContractInput';
 import AnalysisResults from '@/components/AnalysisResults';
 import { AnalysisResult } from '@/lib/types';
+import { SiteHeader } from '@/components/site/SiteHeader';
+import { SiteFooter } from '@/components/site/SiteFooter';
+import { Hero } from '@/components/landing/Hero';
+import { CoverageSection } from '@/components/landing/CoverageSection';
+import { CounterSection } from '@/components/landing/CounterSection';
+import { ProvidersSection } from '@/components/landing/ProvidersSection';
+import { HistoryPanel } from '@/components/landing/HistoryPanel';
+import { AnalyzingState, type AnalyzingPhase, type AnalyzingSection } from '@/components/scan/AnalyzingState';
+import { QuotaLockout } from '@/components/scan/QuotaLockout';
+import { Reveal } from '@/components/ui/Reveal';
+import { SignInModal } from '@/components/auth/SignInModal';
+import { useQuota } from '@/lib/useQuota';
+import { useAuth } from '@/lib/useAuth';
+import { createClient } from '@/lib/supabase/client';
 
 const STORAGE_KEY = 'clause-scanner-history';
 const MAX_HISTORY = 10;
@@ -17,7 +32,14 @@ interface HistoryEntry {
 function loadHistory(): HistoryEntry[] {
   if (typeof window === 'undefined') return [];
   try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    const raw: HistoryEntry[] = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    const cleaned = raw.filter(
+      e => !!e.result?.contract_text && e.result.contract_text.trim().length > 0
+    );
+    if (cleaned.length !== raw.length) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cleaned));
+    }
+    return cleaned;
   } catch {
     return [];
   }
@@ -39,8 +61,49 @@ export default function Home() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [completedCategories, setCompletedCategories] = useState<Set<string>>(new Set());
+  const [currentCategory, setCurrentCategory] = useState<string | null>(null);
+  const [phase, setPhase] = useState<AnalyzingPhase>('analyzing');
+  const [section, setSection] = useState<AnalyzingSection>(null);
+  const [findingsCount, setFindingsCount] = useState(0);
+  const [missingCount, setMissingCount] = useState(0);
+  const [activeLanguageCode, setActiveLanguageCode] = useState<string>('');
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
+  const scanRef = useRef<HTMLDivElement>(null);
+  const { quota, refetch: refetchQuota } = useQuota();
+  const { user } = useAuth();
+  const tScan = useTranslations('scan');
+  const tErr = useTranslations('errors');
+  const tAuth = useTranslations('auth');
+
+  // Sign-in or sign-out → quota source changes (cookie ↔ DB count) so refetch.
+  useEffect(() => {
+    refetchQuota();
+  }, [user?.id, refetchQuota]);
+
+  // OAuth failures redirect to /?auth_error=1 — surface it once and strip
+  // the param so a refresh doesn't keep replaying the toast.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('auth_error') === '1') {
+      setError(tAuth('errorOAuth'));
+      url.searchParams.delete('auth_error');
+      window.history.replaceState({}, '', url.toString());
+    }
+  }, [tAuth]);
+
+  const handleSignOut = async () => {
+    try {
+      await fetch('/api/auth/signout', { method: 'POST' });
+      const supabase = createClient();
+      await supabase.auth.signOut();
+    } catch (err) {
+      console.error('Sign out failed', err);
+    }
+  };
 
   useEffect(() => {
     setHistory(loadHistory());
@@ -51,25 +114,103 @@ export default function Home() {
     setError(null);
     setResult(null);
     setShowHistory(false);
+    setCompletedCategories(new Set());
+    setCurrentCategory(null);
+    setSection(null);
+    setFindingsCount(0);
+    setMissingCount(0);
+    setPhase('analyzing');
+    setActiveLanguageCode((formData.get('language_code') as string) || '');
+    scrollToScan();
 
     try {
-      const res = await fetch('/api/analyze', {
-        method: 'POST',
-        body: formData,
-      });
+      const res = await fetch('/api/analyze', { method: 'POST', body: formData });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || 'Analysis failed. Please try again.');
+      // Pre-stream validation errors come back as a plain JSON body.
+      const contentType = res.headers.get('content-type') || '';
+      if (!res.ok && !contentType.includes('text/event-stream')) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || tErr('analysisFailed'));
+        setIsAnalyzing(false);
+        // 402 = quota exhausted — refresh state so the lockout view + chip
+        // both flip immediately rather than waiting for the next page load.
+        if (res.status === 402) refetchQuota();
+        return;
+      }
+      if (!res.body) {
+        setError(tErr('noStreaming'));
+        setIsAnalyzing(false);
         return;
       }
 
-      setResult(data);
-      const updated = saveToHistory(data);
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      let finalResult: AnalysisResult | null = null;
+      let streamError: string | null = null;
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+
+        // SSE events are separated by a blank line.
+        let sepIdx;
+        while ((sepIdx = buffer.indexOf('\n\n')) !== -1) {
+          const rawEvent = buffer.slice(0, sepIdx);
+          buffer = buffer.slice(sepIdx + 2);
+          const dataLine = rawEvent.split('\n').find(l => l.startsWith('data: '));
+          if (!dataLine) continue;
+          let payload: { type: string; [k: string]: unknown };
+          try {
+            payload = JSON.parse(dataLine.slice(6));
+          } catch {
+            continue;
+          }
+          if (payload.type === 'progress' && typeof payload.category === 'string') {
+            const cat = payload.category;
+            setCurrentCategory(cat);
+            setCompletedCategories(prev => {
+              if (prev.has(cat)) return prev;
+              const next = new Set(prev);
+              next.add(cat);
+              return next;
+            });
+          } else if (payload.type === 'section' && typeof payload.section === 'string') {
+            setSection(payload.section as AnalyzingSection);
+            // Entering missing_clauses means findings is done — clear the
+            // active spinner so the last category doesn't keep spinning.
+            if (payload.section === 'missing_clauses') setCurrentCategory(null);
+          } else if (payload.type === 'tick') {
+            if (typeof payload.findings === 'number') setFindingsCount(payload.findings);
+            if (typeof payload.missing === 'number') setMissingCount(payload.missing);
+          } else if (payload.type === 'phase' && typeof payload.phase === 'string') {
+            setPhase(payload.phase as AnalyzingPhase);
+            if (payload.phase !== 'analyzing') setCurrentCategory(null);
+          } else if (payload.type === 'result' && payload.data) {
+            finalResult = payload.data as AnalysisResult;
+          } else if (payload.type === 'error' && typeof payload.message === 'string') {
+            streamError = payload.message;
+          }
+        }
+      }
+
+      if (streamError) {
+        setError(streamError);
+        return;
+      }
+      if (!finalResult) {
+        setError(tErr('analysisEndedNoResult'));
+        return;
+      }
+      setResult(finalResult);
+      const updated = saveToHistory(finalResult);
       setHistory(updated);
+      // Successful scan consumed one quota unit — refresh so the header
+      // chip and any subsequent lockout state are current.
+      refetchQuota();
     } catch {
-      setError('Network error. Please check your connection and try again.');
+      setError(tErr('network'));
     } finally {
       setIsAnalyzing(false);
     }
@@ -78,182 +219,121 @@ export default function Home() {
   const handleReset = () => {
     setResult(null);
     setError(null);
+    scrollToScan();
   };
 
-  const formatDate = (iso: string) =>
-    new Date(iso).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+  const handleHome = () => {
+    // Clicking the brand mark always returns to the landing — clear any
+    // result/error/history-panel state and scroll to the top of the page.
+    setResult(null);
+    setError(null);
+    setShowHistory(false);
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-
-  const riskColors: Record<string, string> = {
-    low: 'text-emerald-400',
-    medium: 'text-amber-400',
-    high: 'text-orange-400',
-    critical: 'text-red-400',
   };
+
+  const scrollToScan = () => {
+    requestAnimationFrame(() => {
+      scanRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  };
+
+  const isShowingResult = !!result || isAnalyzing;
 
   return (
-    <main className="min-h-screen bg-[#080808] text-white">
-      {/* Header */}
-      <header className="border-b border-white/5 bg-black/40 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
-          <button
-            onClick={handleReset}
-            className="flex items-center gap-2.5 hover:opacity-80 transition-opacity"
-          >
-            <div className="w-6 h-6 rounded-md bg-red-500/20 border border-red-500/30 flex items-center justify-center">
-              <span className="text-red-400 text-xs font-bold">!</span>
-            </div>
-            <span className="font-semibold text-sm text-white">Is This Clause Normal?</span>
-          </button>
+    <main className="relative min-h-screen bg-bg text-text">
+      <SiteHeader
+        onCtaClick={scrollToScan}
+        onHomeClick={handleHome}
+        historyCount={history.length}
+        onHistoryClick={() => { setShowHistory(s => !s); setResult(null); scrollToScan(); }}
+        quota={quota}
+        user={user}
+        onSignInClick={() => setSignInOpen(true)}
+        onSignOut={handleSignOut}
+      />
 
-          <div className="flex items-center gap-3">
-            {history.length > 0 && (
-              <button
-                onClick={() => { setShowHistory(!showHistory); setResult(null); }}
-                className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors hidden sm:block"
-              >
-                History ({history.length})
-              </button>
-            )}
-          </div>
-        </div>
-      </header>
-
-      {/* History panel */}
-      {showHistory && !result && !isAnalyzing && (
-        <div className="max-w-3xl mx-auto px-4 py-4">
-          <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden mb-6">
-            <div className="p-3 border-b border-white/5 flex items-center justify-between">
-              <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
-                Recent Scans
-              </h2>
-              <button
-                onClick={() => {
-                  localStorage.removeItem(STORAGE_KEY);
-                  setHistory([]);
-                  setShowHistory(false);
-                }}
-                className="text-xs text-zinc-600 hover:text-zinc-400 transition-colors"
-              >
-                Clear all
-              </button>
-            </div>
-            <div className="divide-y divide-white/5">
-              {history.map(entry => {
-                const redFlags = entry.result.findings.filter(f => f.severity === 'red').length;
-                return (
-                  <button
-                    key={entry.id}
-                    onClick={() => { setResult(entry.result); setShowHistory(false); }}
-                    className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors"
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs text-zinc-400 truncate font-mono">
-                          {entry.result.contract_snippet}...
-                        </p>
-                        <p className="text-xs text-zinc-600 mt-0.5">
-                          {formatDate(entry.savedAt)}
-                          {redFlags > 0 && (
-                            <span className="ml-2 text-red-400">
-                              {redFlags} red flag{redFlags > 1 ? 's' : ''}
-                            </span>
-                          )}
-                        </p>
-                      </div>
-                      <span className={`text-xs font-semibold flex-shrink-0 ${riskColors[entry.result.overall_risk] || 'text-zinc-400'}`}>
-                        {entry.result.risk_score}/10
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
+      {/* Landing — only when there's no live result/scan in progress */}
+      {!isShowingResult && (
+        <>
+          <Hero onPrimaryClick={scrollToScan} />
+          <CoverageSection />
+          <CounterSection />
+          <ProvidersSection />
+        </>
       )}
 
-      <div className="max-w-3xl mx-auto px-4 py-12">
-        {!result && !isAnalyzing && !showHistory && (
-          <>
-            {/* Hero */}
-            <div className="text-center mb-10">
-              <div className="inline-flex items-center gap-2 bg-red-950/40 border border-red-800/40 rounded-full px-3 py-1 text-xs text-red-400 font-medium mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                Pattern matching · Not legal advice
-              </div>
-              <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4 leading-tight tracking-tight">
-                Is this clause normal?
-              </h1>
-              <p className="text-zinc-400 text-base sm:text-lg leading-relaxed max-w-xl mx-auto">
-                Paste your contract or upload a file. We scan for aggressive or unusual clauses
-                and compare them to industry norms — so you know what to negotiate.
-              </p>
-            </div>
+      {/* Scan zone — anchor target for the CTA */}
+      <section
+        id="scan"
+        ref={scanRef}
+        className={[
+          'relative mx-auto w-full max-w-3xl px-5 sm:px-8',
+          isShowingResult ? 'pt-16 sm:pt-24' : 'py-24 sm:py-32',
+        ].join(' ')}
+      >
+        {!isShowingResult && (
+          <Reveal className="mb-10 text-center" variant="single">
+            <p className="text-eyebrow text-accent">{tScan('sectionEyebrow')}</p>
+            <h2 className="text-display text-display-tight mt-3 text-balance text-[32px] text-text sm:text-[48px]">
+              {tScan('sectionTitle')}
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-[15px] text-text-2 sm:text-[17px] text-body-rest">
+              {tScan('sectionSubtitle')}
+            </p>
+          </Reveal>
+        )}
 
-            <ContractInput
-              onAnalyze={handleAnalyze}
-              isLoading={isAnalyzing}
+        {/* History panel — toggled from header */}
+        {showHistory && !isShowingResult && history.length > 0 && (
+          <div className="mb-8">
+            <HistoryPanel
+              history={history}
+              onSelect={(r) => { setResult(r); setShowHistory(false); }}
+              onClear={() => {
+                localStorage.removeItem(STORAGE_KEY);
+                setHistory([]);
+                setShowHistory(false);
+              }}
             />
+          </div>
+        )}
 
-            {error && (
-              <div className="mt-4 bg-red-950/40 border border-red-800/50 rounded-xl p-4 text-sm text-red-300">
-                {error}
-              </div>
-            )}
+        {!isShowingResult && (
+          quota?.exhausted ? (
+            <QuotaLockout quota={quota} onSignInClick={() => setSignInOpen(true)} />
+          ) : (
+            <ContractInput onAnalyze={handleAnalyze} isLoading={isAnalyzing} />
+          )
+        )}
 
-            {/* How it works */}
-            <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {[
-                {
-                  icon: '📋',
-                  title: 'Paste or upload',
-                  desc: 'Drop in your contract — PDF, Word doc, image screenshot, or plain text.',
-                },
-                {
-                  icon: '🔍',
-                  title: 'AI scans for patterns',
-                  desc: 'Checks 9 categories of clauses against freelance industry norms.',
-                },
-                {
-                  icon: '💬',
-                  title: 'Get plain-English findings',
-                  desc: 'See what to flag, what to negotiate, and suggested replacement language.',
-                },
-              ].map(item => (
-                <div
-                  key={item.title}
-                  className="bg-white/[0.03] border border-white/5 rounded-xl p-4 text-center"
-                >
-                  <div className="text-2xl mb-2">{item.icon}</div>
-                  <h3 className="text-sm font-semibold text-white mb-1">{item.title}</h3>
-                  <p className="text-xs text-zinc-500 leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </>
+        {error && !isShowingResult && (
+          <div className="mt-4 rounded-2xl border border-sev-red-stroke bg-sev-red-soft px-4 py-3 text-[13px] text-sev-red">
+            {error}
+          </div>
         )}
 
         {isAnalyzing && (
-          <div className="text-center py-24">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-white/5 border border-white/10 mb-6">
-              <span className="w-5 h-5 border-2 border-zinc-600 border-t-white rounded-full animate-spin block" />
-            </div>
-            <h2 className="text-lg font-semibold text-white mb-2">Scanning your contract</h2>
-            <p className="text-sm text-zinc-500">
-              Checking for unusual clauses across 9 categories...
-            </p>
-          </div>
+          <AnalyzingState
+            completedCategories={completedCategories}
+            currentCategory={currentCategory}
+            phase={phase}
+            section={section}
+            findingsCount={findingsCount}
+            missingCount={missingCount}
+            languageCode={activeLanguageCode}
+          />
         )}
 
         {result && !isAnalyzing && (
           <AnalysisResults result={result} onReset={handleReset} />
         )}
-      </div>
+      </section>
+
+      <SiteFooter />
+
+      <SignInModal open={signInOpen} onClose={() => setSignInOpen(false)} />
     </main>
   );
 }

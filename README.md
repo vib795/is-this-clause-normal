@@ -1,5 +1,5 @@
 # Is This Clause Normal?
- 
+
 A contract red-flag scanner for freelancers and solo founders who don't have a lawyer on speed dial.
 
 You paste in a contract (or upload a PDF, Word doc, or even a screenshot), and it tells you what's unusual, what to push back on, and what replacement language to ask for. It checks against real industry norms — not just vibes.

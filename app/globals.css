@@ -1,23 +1,269 @@
 @import "tailwindcss";
 
+/* ──────────────────────────────────────────────────────────────────────────
+   Design tokens — dark by default, switch via prefers-color-scheme: light.
+   Three surface tiers, semantic severity colors, layered shadows with
+   color-tinted opacity, spring easing primitives. Components reference
+   these via Tailwind utility classes (registered in @theme below) so
+   we never hardcode raw colors in components.
+   ────────────────────────────────────────────────────────────────────── */
+
 :root {
-  --background: #080808;
-  --foreground: #f5f5f5;
+  color-scheme: dark light;
+
+  /* Dark theme — the default */
+  --bg:               #000000;
+  --bg-elevated:      #0a0a0a;
+  --bg-floating:      #141414;
+  --bg-glass:         rgba(255, 255, 255, 0.04);
+
+  --stroke-subtle:    rgba(255, 255, 255, 0.08);
+  --stroke-strong:    rgba(255, 255, 255, 0.18);
+
+  --text:             #f5f5f7;
+  --text-secondary:   #a1a1a6;
+  --text-tertiary:    #6e6e73;
+  --text-quaternary:  #424245;
+
+  --accent:           #fa243c;
+  --accent-hover:     #ff3b54;
+  --accent-soft:      rgba(250, 36, 60, 0.14);
+  --accent-stroke:    rgba(250, 36, 60, 0.32);
+  --on-accent:        #ffffff;
+
+  --severity-green:   #34c759;
+  --severity-green-soft: rgba(52, 199, 89, 0.12);
+  --severity-green-stroke: rgba(52, 199, 89, 0.32);
+
+  --severity-yellow:  #ffd60a;
+  --severity-yellow-soft: rgba(255, 214, 10, 0.12);
+  --severity-yellow-stroke: rgba(255, 214, 10, 0.32);
+
+  --severity-orange:  #ff9f0a;
+  --severity-orange-soft: rgba(255, 159, 10, 0.12);
+  --severity-orange-stroke: rgba(255, 159, 10, 0.32);
+
+  --severity-red:     #ff453a;
+  --severity-red-soft: rgba(255, 69, 58, 0.12);
+  --severity-red-stroke: rgba(255, 69, 58, 0.32);
+
+  --severity-blue:    #0a84ff;
+  --severity-blue-soft: rgba(10, 132, 255, 0.12);
+  --severity-blue-stroke: rgba(10, 132, 255, 0.32);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 24px 60px -12px rgba(0, 0, 0, 0.55), 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-accent-glow: 0 24px 60px -16px rgba(250, 36, 60, 0.35);
+
+  /* Apple-style spring curves */
+  --ease-out-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-spring: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out-fast: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg:               #fbfbfd;
+    --bg-elevated:      #ffffff;
+    --bg-floating:      #ffffff;
+    --bg-glass:         rgba(0, 0, 0, 0.04);
+
+    --stroke-subtle:    rgba(0, 0, 0, 0.08);
+    --stroke-strong:    rgba(0, 0, 0, 0.18);
+
+    --text:             #1d1d1f;
+    --text-secondary:   #515154;
+    --text-tertiary:    #6e6e73;
+    --text-quaternary:  #86868b;
+
+    --accent:           #d50c2d;
+    --accent-hover:     #b00a26;
+    --accent-soft:      rgba(213, 12, 45, 0.08);
+    --accent-stroke:    rgba(213, 12, 45, 0.22);
+    --on-accent:        #ffffff;
+
+    --severity-green:   #1f883d;
+    --severity-green-soft: rgba(31, 136, 61, 0.08);
+    --severity-green-stroke: rgba(31, 136, 61, 0.24);
+
+    --severity-yellow:  #b58105;
+    --severity-yellow-soft: rgba(181, 129, 5, 0.08);
+    --severity-yellow-stroke: rgba(181, 129, 5, 0.24);
+
+    --severity-orange:  #c2410c;
+    --severity-orange-soft: rgba(194, 65, 12, 0.08);
+    --severity-orange-stroke: rgba(194, 65, 12, 0.24);
+
+    --severity-red:     #d50c2d;
+    --severity-red-soft: rgba(213, 12, 45, 0.08);
+    --severity-red-stroke: rgba(213, 12, 45, 0.24);
+
+    --severity-blue:    #0a4cdb;
+    --severity-blue-soft: rgba(10, 76, 219, 0.08);
+    --severity-blue-stroke: rgba(10, 76, 219, 0.24);
+
+    --shadow-sm: 0 1px 2px rgba(15, 17, 21, 0.06);
+    --shadow-md: 0 8px 24px rgba(15, 17, 21, 0.08), 0 1px 2px rgba(15, 17, 21, 0.04);
+    --shadow-lg: 0 28px 64px -16px rgba(15, 17, 21, 0.18), 0 12px 28px rgba(15, 17, 21, 0.08);
+    --shadow-accent-glow: 0 24px 60px -16px rgba(213, 12, 45, 0.22);
+  }
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* fonts loaded by next/font in app/layout.tsx */
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  /* surface + text */
+  --color-bg:           var(--bg);
+  --color-elevated:     var(--bg-elevated);
+  --color-floating:     var(--bg-floating);
+  --color-glass:        var(--bg-glass);
+  --color-stroke:       var(--stroke-subtle);
+  --color-stroke-strong: var(--stroke-strong);
+  --color-text:         var(--text);
+  --color-text-2:       var(--text-secondary);
+  --color-text-3:       var(--text-tertiary);
+  --color-text-4:       var(--text-quaternary);
+
+  /* accent */
+  --color-accent:        var(--accent);
+  --color-accent-hover:  var(--accent-hover);
+  --color-accent-soft:   var(--accent-soft);
+  --color-accent-stroke: var(--accent-stroke);
+  --color-on-accent:     var(--on-accent);
+
+  /* severity */
+  --color-sev-green:        var(--severity-green);
+  --color-sev-green-soft:   var(--severity-green-soft);
+  --color-sev-green-stroke: var(--severity-green-stroke);
+  --color-sev-yellow:        var(--severity-yellow);
+  --color-sev-yellow-soft:   var(--severity-yellow-soft);
+  --color-sev-yellow-stroke: var(--severity-yellow-stroke);
+  --color-sev-orange:        var(--severity-orange);
+  --color-sev-orange-soft:   var(--severity-orange-soft);
+  --color-sev-orange-stroke: var(--severity-orange-stroke);
+  --color-sev-red:        var(--severity-red);
+  --color-sev-red-soft:   var(--severity-red-soft);
+  --color-sev-red-stroke: var(--severity-red-stroke);
+  --color-sev-blue:        var(--severity-blue);
+  --color-sev-blue-soft:   var(--severity-blue-soft);
+  --color-sev-blue-stroke: var(--severity-blue-stroke);
+
+  /* shadows */
+  --shadow-sm:           var(--shadow-sm);
+  --shadow-md:           var(--shadow-md);
+  --shadow-lg:           var(--shadow-lg);
+  --shadow-accent:       var(--shadow-accent-glow);
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Base
+   ────────────────────────────────────────────────────────────────────── */
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", Roboto, sans-serif;
+  font-feature-settings: "cv11", "ss01", "ss03";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* Refined typography defaults Apple uses for display copy. */
+.text-display {
+  font-family: var(--font-sans);
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+  font-weight: 700;
+}
+.text-display-tight {
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+.text-eyebrow {
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.text-body-rest {
+  line-height: 1.7;
+  letter-spacing: -0.005em;
+}
+
+/* Scrollbars — invisible until hover, themed for both palettes. */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.1) transparent;
+  scrollbar-color: color-mix(in srgb, var(--text-tertiary) 40%, transparent) transparent;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Motion primitives — used by scroll-reveal sections and entrance.
+   ────────────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.9s var(--ease-out-spring),
+      transform 0.9s var(--ease-out-spring);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.7s var(--ease-out-spring),
+      transform 0.7s var(--ease-out-spring);
+  }
+  .reveal-stagger.is-visible > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-stagger.is-visible > *:nth-child(1) { transition-delay: 0.00s; }
+  .reveal-stagger.is-visible > *:nth-child(2) { transition-delay: 0.08s; }
+  .reveal-stagger.is-visible > *:nth-child(3) { transition-delay: 0.16s; }
+  .reveal-stagger.is-visible > *:nth-child(4) { transition-delay: 0.24s; }
+  .reveal-stagger.is-visible > *:nth-child(5) { transition-delay: 0.32s; }
+  .reveal-stagger.is-visible > *:nth-child(6) { transition-delay: 0.40s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal-stagger > * { opacity: 1 !important; transform: none !important; }
+}
+
+/* Background mesh used in the hero — two radial gradients + faint grain. */
+.hero-mesh {
+  background:
+    radial-gradient(60% 50% at 18% 22%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 65%),
+    radial-gradient(50% 45% at 82% 78%, color-mix(in srgb, var(--severity-orange) 12%, transparent), transparent 60%),
+    var(--bg);
+}
+
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* Subtle line that anchors big section transitions, like Apple's hairline. */
+.hairline-top { box-shadow: inset 0 1px 0 var(--stroke-subtle); }
+.hairline-bottom { box-shadow: inset 0 -1px 0 var(--stroke-subtle); }
+
+/* Focus ring — visible on keyboard nav only, themed accent color. */
+:where(button, a, input, textarea, select):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
 }

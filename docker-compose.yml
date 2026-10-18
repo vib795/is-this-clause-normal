@@ -2,7 +2,11 @@ services:
   app:
     build: .
     ports:
-      - "3000:3000"
+      - "3003:3000"
     env_file:
       - .env.local
+    # Lets the container reach a local Ollama on the host (e.g. OLLAMA_BASE_URL=http://host.docker.internal:11434).
+    # Required explicitly on Linux; harmless on macOS / Windows where the alias already exists.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: unless-stopped

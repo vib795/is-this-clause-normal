@@ -1,0 +1,358 @@
+{
+  "common": {
+    "loading": "लोड होत आहे…",
+    "of": "पैकी",
+    "cancel": "रद्द करा"
+  },
+  "header": {
+    "brandAria": "Is This Clause Normal? — मुखपृष्ठ",
+    "brandName": "Is This Clause Normal?",
+    "howItWorks": "हे कसे कार्य करते",
+    "history": "इतिहास",
+    "tryIt": "वापरून पहा",
+    "signIn": "साइन इन करा",
+    "signedInAs": "म्हणून साइन इन केले",
+    "settings": "सेटिंग्ज",
+    "signOut": "साइन आउट करा",
+    "chipBYOK": "BYOK सक्रिय",
+    "chipBYOKTooltip": "तुमची API की यासाठी सक्रिय आहे: {providers}",
+    "chipLimitReached": "मर्यादा गाठली",
+    "chipLimitTooltip": "तुम्ही तुमचे विनामूल्य स्कॅन वापरले आहेत. सुरू ठेवण्यासाठी साइन इन करा किंवा BYOK की जोडा.",
+    "chipFreeScans": "{count, plural, one {# विनामूल्य स्कॅन} other {# विनामूल्य स्कॅन}}",
+    "chipFreeTooltip": "{remaining} पैकी {total} विनामूल्य {signedIn, select, true {} other {अनामित }}{total, plural, one {स्कॅन} other {स्कॅन}} शिल्लक",
+    "language": "भाषा",
+    "languageSwitcherAria": "इंटरफेस भाषा निवडा"
+  },
+  "footer": {
+    "tagline": "फ्रीलान्सर, संस्थापक आणि स्वतः न लिहिलेल्या कागदावर सही करण्यापूर्वी असलेल्या प्रत्येकासाठी एक नमुना-जुळणी साधन.",
+    "columnProduct": "उत्पादन",
+    "columnUseIt": "वापरा",
+    "columnLegal": "कायदेशीर",
+    "linkHowItWorks": "हे कसे कार्य करते",
+    "linkCoverage": "व्याप्ती",
+    "linkCounterAgreement": "प्रति-करार",
+    "linkProviders": "प्रदाते",
+    "linkStartScan": "स्कॅन सुरू करा",
+    "linkHistory": "इतिहास (स्थानिक)",
+    "linkNotLegalAdvice": "कायदेशीर सल्ला नाही",
+    "linkHowTextUsed": "तुमचा मजकूर कसा वापरला जातो",
+    "disclaimerTitle": "नमुना जुळणी — कायदेशीर सल्ला नाही.",
+    "disclaimerBody": "हे साधन सामान्य उद्योग मानकांपेक्षा वेगळ्या कलमांना चिन्हांकित करते; ते कायदेशीर मते देत नाही आणि एखाद्या पात्र वकिलाची जागा घेऊ शकत नाही. तुम्ही सादर केलेला करार मजकूर विश्लेषणासाठी तुम्ही निवडलेल्या AI प्रदात्याकडे पाठवला जातो. सही करणे, वाटाघाटी करणे किंवा माघार घेणे हे निर्णय पूर्णपणे तुमचे आहेत.",
+    "copyright": "© {year} Is This Clause Normal?"
+  },
+  "hero": {
+    "eyebrow": "नमुना जुळणी · कायदेशीर सल्ला नाही",
+    "title": "तुम्ही काय सही करणार आहात ते जाणून घ्या.",
+    "subtitle": "कोणताही करार पेस्ट करा. काही सेकंदांत, आम्ही आक्रमक कलमे दाखवतो, त्यांची उद्योग मानकांशी तुलना करतो आणि तुमचा वकील संपादित करू शकेल असा प्रति-करार तयार करतो.",
+    "ctaPrimary": "करार स्कॅन करा",
+    "ctaSecondary": "हे कसे कार्य करते ते पहा",
+    "scrollLabel": "स्क्रोल करा"
+  },
+  "scan": {
+    "sectionEyebrow": "स्कॅन",
+    "sectionTitle": "तुमच्या करारावर वापरून पहा",
+    "sectionSubtitle": "मजकूर पेस्ट करा किंवा फाइल अपलोड करा. आम्ही ती साठवत नाही — तुमचा मजकूर थेट तुम्ही निवडलेल्या प्रदात्याकडे आणि परत तुमच्या स्क्रीनवर जातो.",
+    "tabPaste": "मजकूर पेस्ट करा",
+    "tabUpload": "फाइल अपलोड करा",
+    "supportedFormats": "PDF · Word · प्रतिमा · साधा मजकूर",
+    "pasteePlaceholder": "तुमचा करार मजकूर येथे पेस्ट करा…",
+    "trySample": "नमुना वापरून पहा:",
+    "fileDropHint": "तुमचा करार ड्रॉप करा, किंवा",
+    "fileBrowse": "ब्राउझ करा",
+    "fileFormats": "PDF, Word, साधा मजकूर, किंवा प्रतिमा (१० MB पर्यंत)",
+    "fileRemove": "काढून टाका",
+    "fieldProvider": "AI प्रदाता",
+    "fieldModel": "मॉडेल",
+    "fieldLanguage": "भाषा",
+    "languageEnglish": "इंग्रजी (डीफॉल्ट)",
+    "providerLoading": "प्रदाते लोड होत आहेत…",
+    "providerNotConfigured": "{label} (कॉन्फिगर केलेले नाही)",
+    "warnNoVision": "{label} प्रतिमा वाचू शकत नाही. प्रदाता बदला किंवा मजकूर पेस्ट करा.",
+    "warnNoPdf": "{label} PDF नेटिव्हली वाचत नाही — पाठवण्यापूर्वी मजकूर काढला जाईल.",
+    "submitIdle": "करार स्कॅन करा",
+    "submitLoading": "लाल झेंडे शोधत आहे…",
+    "submitDisclaimer": "कायदेशीर सल्ला नाही — केवळ नमुना जुळणी. नेहमी पात्र वकिलाचा सल्ला घ्या."
+  },
+  "analyzing": {
+    "headingReading": "तुमचा करार वाचत आहे",
+    "headingAnalyzing": "कलमांचे विश्लेषण करत आहे",
+    "headingMissing": "गहाळ संरक्षणे शोधत आहे",
+    "headingTranslating": "{language} मध्ये भाषांतर करत आहे",
+    "headingFinalizing": "निष्कर्ष संकलित करत आहे",
+    "subAnalyzing": "उद्योग मानकांच्या नऊ श्रेणींमधून जात आहे.",
+    "subMissing": "कोणते संरक्षणात्मक कलम अनुपस्थित आहेत ते तपासत आहे.",
+    "subTranslating": "Sarvam सारांश आणि शिफारस स्थानिकीकरण करत आहे.",
+    "subFinalizing": "जवळजवळ झाले — निकाल एकत्र करत आहे.",
+    "counts": "{findings, plural, =0 {} one {# निष्कर्ष} other {# निष्कर्ष}}{both, select, true { · } other {}}{missing, plural, =0 {} one {# गहाळ} other {# गहाळ}}",
+    "footerLive": "वरील बार लाइव्ह आहे — मॉडेल त्यांच्यासाठी निष्कर्ष लिहित असताना श्रेण्या भरल्या जातात.",
+    "footerAlmost": "जवळजवळ झाले."
+  },
+  "lockout": {
+    "eyebrowAnon": "विनामूल्य स्कॅन वापरला",
+    "eyebrowSigned": "विनामूल्य स्कॅन वापरले",
+    "titleAnon": "तुम्ही तुमचा विनामूल्य स्कॅन वापरला आहे",
+    "titleSigned": "तुम्ही तुमचे विनामूल्य स्कॅन वापरले आहेत",
+    "bodyAnon": "आणखी २ विनामूल्य स्कॅन अनलॉक करण्यासाठी साइन इन करा, किंवा तुमच्या खात्यावर अमर्यादित विश्लेषणासाठी स्वतःची API की आणा.",
+    "bodySigned": "प्रदाता खर्चावर स्कॅन सुरू ठेवण्यासाठी तुमची स्वतःची API की जोडा — तुमची की, तुमचे बिल, कोणत्याही मर्यादा नाहीत.",
+    "ctaSignIn": "साइन इन करा",
+    "ctaBYOK": "तुमची स्वतःची API की वापरा",
+    "ctaAddKey": "तुमची API की जोडा",
+    "ctaBYOKTooltip": "प्रथम साइन इन करा, नंतर सेटिंग्जमध्ये की जोडा",
+    "usedSummaryAnon": "{used} पैकी {total} विनामूल्य अनामित {total, plural, one {स्कॅन} other {स्कॅन}} वापरले.",
+    "usedSummarySigned": "{used} पैकी {total} विनामूल्य {total, plural, one {स्कॅन} other {स्कॅन}} वापरले."
+  },
+  "auth": {
+    "title": "सुरू ठेवण्यासाठी साइन इन करा",
+    "subtitle": "तुमच्या खात्यावर आणखी २ विनामूल्य स्कॅन मिळवा. कार्ड नाही, स्पॅम नाही.",
+    "oauthGoogle": "Google सह सुरू ठेवा",
+    "oauthGitHub": "GitHub सह सुरू ठेवा",
+    "oauthSetupPending": "(सेटअप प्रलंबित)",
+    "oauthDisabledTooltip": "हे वापरण्यासाठी Supabase Auth → Providers मध्ये {provider} सक्षम करा",
+    "or": "किंवा",
+    "emailLabel": "ईमेल",
+    "emailPlaceholder": "you@example.com",
+    "sendLink": "मॅजिक लिंक पाठवा",
+    "sending": "पाठवत आहे…",
+    "checkEmailTitle": "तुमचा ईमेल तपासा",
+    "checkEmailBody": "आम्ही <strong>{email}</strong> वर साइन-इन लिंक पाठवली आहे. साइन इन पूर्ण करण्यासाठी त्यावर क्लिक करा — तुम्ही हे विंडो बंद करू शकता.",
+    "termsDisclaimer": "साइन इन केल्याने तुम्ही सहमती देता की आम्ही तुमचे करार स्कॅन तुमच्या खात्याशी संबंधित साठवू शकतो. तुम्ही ते कधीही हटवू शकता.",
+    "errorGeneric": "लिंक पाठवता आली नाही.",
+    "errorOAuth": "साइन इन अयशस्वी झाले. कृपया पुन्हा प्रयत्न करा."
+  },
+  "errors": {
+    "analysisFailed": "विश्लेषण अयशस्वी झाले. कृपया पुन्हा प्रयत्न करा.",
+    "noStreaming": "स्ट्रीमिंग तुमच्या ब्राउझरद्वारे समर्थित नाही.",
+    "analysisEndedNoResult": "विश्लेषण निकालाशिवाय संपले. कृपया पुन्हा प्रयत्न करा.",
+    "network": "नेटवर्क त्रुटी. कृपया तुमचे कनेक्शन तपासा आणि पुन्हा प्रयत्न करा."
+  },
+  "coverage": {
+    "eyebrow": "व्याप्ती",
+    "title": "नऊ श्रेण्या. प्रत्येक कलम.",
+    "subtitle": "प्रत्येक स्कॅन वकील सहसा चिन्हांकित करतात असे नमुने तपासतो, तसेच आधुनिक नमुने देखील — AI-प्रशिक्षण अधिकार, एकाधिकार वाढ, डेटा मालकी.",
+    "categories": {
+      "payment": {
+        "title": "देयक आणि आर्थिक",
+        "note": "नेट-९० सापळे, छुपे शुल्क, रोखून ठेवणे."
+      },
+      "ip": {
+        "title": "बौद्धिक संपदा",
+        "note": "पूर्व-अस्तित्वातील काम, नैतिक अधिकार, AI-प्रशिक्षण अधिकार."
+      },
+      "restrictions": {
+        "title": "निर्बंध",
+        "note": "नॉन-कॉम्पिटी, एकाधिकार, भौगोलिक मर्यादा."
+      },
+      "scope": {
+        "title": "व्याप्ती आणि वितरणयोग्य गोष्टी",
+        "note": "अमर्यादित सुधारणा, अस्पष्ट वितरणयोग्य गोष्टी."
+      },
+      "termination": {
+        "title": "समाप्ती आणि बाहेर पडणे",
+        "note": "लॉक-इन, गहाळ किल-फी, अतिरिक्त नोटीस कालावधी."
+      },
+      "liability": {
+        "title": "दायित्व आणि जोखीम",
+        "note": "अमर्यादित नुकसान, नुकसानभरपाई, विमा भार."
+      },
+      "dispute": {
+        "title": "विवाद निराकरण",
+        "note": "फोरम निवड, अनिवार्य लवाद, वर्ग-माफी."
+      },
+      "data_privacy": {
+        "title": "डेटा आणि गोपनीयता",
+        "note": "डेटा मालकी, धारणा, प्रशिक्षण-डेटा वगळणे."
+      },
+      "exclusivity": {
+        "title": "एकाधिकार",
+        "note": "एकल-स्रोत कलमे, हितसंघर्षाची पोहोच."
+      }
+    }
+  },
+  "counter": {
+    "eyebrow": "प्रति-करार",
+    "titlePrefix": "तुम्ही ",
+    "titleEmphasis": "स्वतः",
+    "titleSuffix": " सही कराल अशी आवृत्ती पाठवा.",
+    "subtitle": "एका क्लिकने प्रत्येक निष्कर्ष संबोधित करणारा सुधारित करार — आणि स्वच्छ रेडलाइन डिफ — तयार होतो. दोन्ही PDF म्हणून डाउनलोड करा. तुमच्या वकिलाला द्या, तुमच्या प्रतिपक्षाला द्या, स्वतःला द्या.",
+    "bullet1": "साध्या गद्यात सुधारित PDF, छपाईसाठी तयार",
+    "bullet2": "ओळ-ओळ जोडणी आणि काढणीसह रेडलाइन PDF",
+    "bullet3": "केवळ मसुद्यासाठी अधिक सशक्त मॉडेल निवडा (Opus, GPT-4o, Gemini Pro)",
+    "bullet4": "प्रत्येक पानावर अस्वीकरण मुद्रित — कधीही कायदेशीर सल्ला नाही",
+    "diffTitle": "रेडलाइन डिफ",
+    "diffVersion": "v1 → counter",
+    "diffFilename": "counter-agreement.pdf"
+  },
+  "providers": {
+    "eyebrow": "तुमचे मॉडेल, तुमच्या की",
+    "title": "स्वतःची बुद्धिमत्ता आणा.",
+    "subtitle": "Anthropic, OpenAI, Google किंवा स्थानिक Ollama मॉडेलवर स्कॅन चालवा. ट्रायजसाठी स्वस्त आणि मसुद्यासाठी जड मॉडेल निवडा. तुमचा मजकूर फक्त तुम्ही निवडलेल्या ठिकाणी जातो.",
+    "note": "केवळ तुम्ही कॉन्फिगर केलेले प्रदाते पिकरमध्ये दिसतात."
+  },
+  "results": {
+    "overallEyebrow": "एकूण",
+    "riskScoreEyebrow": "जोखीम गुण",
+    "riskScoreOf10": "{score} पैकी १०",
+    "recommendationEyebrow": "शिफारस",
+    "countDealBreakers": "करार मोडणारे",
+    "countNegotiate": "वाटाघाटी करा",
+    "countAcceptable": "स्वीकारार्ह",
+    "findingsKicker": "निष्कर्ष",
+    "findingsTitle": "{count, plural, one {# कलम तपासले} other {# कलमे तपासली}}",
+    "missingKicker": "गहाळ संरक्षणे",
+    "missingTitle": "{count, plural, one {# कलम जे असायला हवे होते पण नाही} other {# कलमे जी असायला हवी होती पण नाहीत}}",
+    "footerDisclaimer": "हा कायदेशीर सल्ला नाही — केवळ नमुना जुळवणी. नेहमी एखाद्या पात्र वकिलाचा सल्ला घ्या.",
+    "scanAnother": "दुसरा करार स्कॅन करा",
+    "providerModel": "{provider} · {model}"
+  },
+  "missingClause": {
+    "suggestedStarterEyebrow": "सुचवलेली प्रारंभिक भाषा"
+  },
+  "findingCard": {
+    "clauseInContract": "करारातील कलम",
+    "whyThisMatters": "हे का महत्त्वाचे आहे",
+    "industryNorm": "उद्योग मानक",
+    "suggestedLanguage": "सुचवलेली भाषा",
+    "whyThisIsFine": "हे ठीक का आहे",
+    "copySuggested": "सुचवलेली भाषा कॉपी करा",
+    "copied": "✓ कॉपी केले"
+  },
+  "severity": {
+    "red": "करार मोडणारे",
+    "yellow": "वाटाघाटी करा",
+    "green": "स्वीकारार्ह"
+  },
+  "negotiability": {
+    "high": "सहसा वाटाघाटी करता येते",
+    "medium": "कधीकधी वाटाघाटी करता येते",
+    "low": "क्वचितच वाटाघाटी करता येते"
+  },
+  "categories": {
+    "payment": "पेमेंट आणि आर्थिक",
+    "ip": "बौद्धिक संपदा",
+    "restrictions": "निर्बंध",
+    "scope": "व्याप्ती आणि वितरणयोग्य गोष्टी",
+    "termination": "समाप्ती आणि बाहेर पडणे",
+    "liability": "दायित्व आणि जोखीम",
+    "dispute": "विवाद निराकरण",
+    "data_privacy": "डेटा आणि गोपनीयता",
+    "exclusivity": "एकाधिकार"
+  },
+  "contractTypes": {
+    "freelance_services": "फ्रीलान्स सेवा",
+    "employment": "रोजगार",
+    "saas": "SaaS",
+    "nda": "NDA",
+    "vendor": "विक्रेता",
+    "other": "इतर"
+  },
+  "riskLevels": {
+    "low": {
+      "label": "कमी जोखीम",
+      "description": "किरकोळ बाबी लक्षात घेऊन सहसा सही करण्यास सुरक्षित."
+    },
+    "medium": {
+      "label": "मध्यम जोखीम",
+      "description": "सही करण्यापूर्वी काही बाबींवर वाटाघाटी करण्यासारख्या आहेत."
+    },
+    "high": {
+      "label": "उच्च जोखीम",
+      "description": "अनेक लाल निशाणे — सही करण्यापूर्वी वाटाघाटी करा."
+    },
+    "critical": {
+      "label": "गंभीर जोखीम",
+      "description": "महत्त्वपूर्ण बदलांशिवाय सही करू नका."
+    }
+  },
+  "history": {
+    "title": "अलीकडील स्कॅन",
+    "subtitle": "या डिव्हाइसवर स्थानिकरित्या साठवले आहे.",
+    "clearAll": "सर्व साफ करा",
+    "redFlags": "{count, plural, one {# लाल निशाण} other {# लाल निशाणे}}"
+  },
+  "counterAgreement": {
+    "eyebrow": "प्रति-करार",
+    "title": "तुम्ही सही कराल असी आवृत्ती तयार करा",
+    "subtitle": "वरील प्रत्येक निष्कर्षाला संबोधित करून करार पुन्हा लिहा. परिणाम इनलाइन पाहा, नंतर स्वच्छ PDF किंवा रेडलाइन डिफ डाउनलोड करा आणि तुमच्या प्रतिपक्षाला द्या.",
+    "fieldProviderLabel": "मसुदाकार — प्रदाता",
+    "fieldModelLabel": "मसुदाकार — मॉडेल",
+    "providerLoading": "लोड होत आहे…",
+    "providerNotConfiguredSuffix": "(कॉन्फिगर केलेले नाही)",
+    "modelHelp": "जड मॉडेल्स (Opus, GPT-4o, Gemini Pro) सहसा अधिक चांगले मसुदे तयार करतात. विश्लेषण मॉडेलवर डीफॉल्ट होते.",
+    "draftCta": "{model} सह प्रति-करार तयार करा →",
+    "draftCtaFallbackModel": "निवडलेले मॉडेल",
+    "drafting": "सुधारित करार तयार होत आहे (३०–६० सेकंद)…",
+    "drafterChanged": "मसुदाकार बदलला. सध्याचा मसुदा याने तयार केला होता",
+    "redraft": "नवीन मॉडेलसह पुन्हा मसुदा तयार करा",
+    "redrafting": "पुन्हा मसुदा तयार होत आहे…",
+    "changesProposed": "{count, plural, one {# बदल सुचवला} other {# बदल सुचवले}}",
+    "changeAdded": "जोडले",
+    "changeRemoved": "काढले",
+    "changeModified": "सुधारित केले",
+    "tabRevised": "सुधारित",
+    "tabRedline": "रेडलाइन",
+    "downloadRevised": "↓ सुधारित PDF डाउनलोड करा",
+    "downloadRedline": "↓ रेडलाइन PDF डाउनलोड करा",
+    "renderingPdf": "PDF रेंडर होत आहे…",
+    "draftedByPrefix": "याने तयार केला",
+    "draftDisclaimer": "केवळ वाटाघाटीसाठी AI-निर्मित मसुदा — कायदेशीर सल्ला नाही, कोणतीही हमी नाही. वापराची संपूर्ण जबाबदारी तुमची आहे. सही करण्यापूर्वी एखाद्या पात्र वकिलाकडून तपासून घ्या.",
+    "errorGenerate": "प्रति-करार तयार करता आला नाही.",
+    "errorPdf": "PDF रेंडर करता आली नाही.",
+    "errorNetworkGenerate": "प्रति-करार तयार करताना नेटवर्क त्रुटी.",
+    "errorNetworkPdf": "PDF डाउनलोड करताना नेटवर्क त्रुटी.",
+    "fallbackEyebrow": "प्रति-करार — एक पाऊल दूर",
+    "fallbackTitle": "प्रति-करार तयार करण्यासाठी आम्हाला मूळ मजकूर हवा आहे",
+    "fallbackSubtitle": "आम्ही करार मजकूर जतन करणे सुरू केल्यापूर्वी हा परिणाम इतिहासातून लोड केला गेला. खाली मूळ मजकूर द्या आणि मसुदाकार लगेच उपलब्ध होईल — पुन्हा विश्लेषण करण्याची गरज नाही.",
+    "fallbackPaste": "करार मजकूर पेस्ट करा",
+    "fallbackUpload": "फाइल अपलोड करा",
+    "fallbackPastePlaceholder": "येथे संपूर्ण करार मजकूर पेस्ट करा…",
+    "fallbackUnlock": "प्रति-करार अनलॉक करा",
+    "fallbackPasteTooShort": "करार मजकूराचे किमान ५० अक्षरे आवश्यक आहेत.",
+    "fallbackExtracting": "काढत आहे (प्रतिमांसाठी व्हिजन OCR वापरले जाते)…",
+    "fallbackClickOrDrop": "क्लिक करा किंवा फाइल टाका",
+    "fallbackFileFormats": "PDF · Word · मजकूर · प्रतिमा (१० MB पर्यंत)",
+    "fallbackErrorExtract": "फाइलमधून मजकूर काढता आला नाही.",
+    "fallbackErrorTooShort": "काढलेला मजकूर करारासाठी खूपच कमी आहे.",
+    "fallbackErrorNetwork": "मजकूर काढताना नेटवर्क त्रुटी."
+  },
+  "settings": {
+    "loading": "लोड होत आहे…",
+    "eyebrow": "सेटिंग्ज",
+    "title": "तुमच्या API की",
+    "subtitle": "प्रदाता की जोडा आणि तुमचे स्कॅन तुमच्या खात्यावर प्रदात्याच्या किंमतीनुसार चालतील — विनामूल्य स्तराच्या पलीकडे, आमच्याकडून कोणतेही अतिरिक्त शुल्क नाही. की विश्रांतीवर एन्क्रिप्ट केल्या जातात आणि जतन केल्यानंतर कधीही दाखवल्या जात नाहीत."
+  },
+  "byok": {
+    "loading": "तुमच्या की लोड होत आहेत…",
+    "errorLoad": "की लोड करता आल्या नाहीत.",
+    "active": "सक्रिय",
+    "remove": "काढा",
+    "removing": "काढत आहे…",
+    "removeConfirm": "तुमची {provider} की काढायची का? भविष्यातील स्कॅन विनामूल्य स्तरावर परत येतील किंवा अयशस्वी होतील.",
+    "save": "जतन करा",
+    "saving": "जतन होत आहे…",
+    "replace": "बदला",
+    "replacePlaceholder": "की बदला ({sample})",
+    "hide": "लपवा",
+    "show": "दाखवा",
+    "msgSaved": "की जतन केली.",
+    "msgUpdated": "की अपडेट केली.",
+    "msgRemoved": "की काढली.",
+    "errSave": "जतन अयशस्वी.",
+    "errSaveGeneric": "की जतन करता आली नाही.",
+    "errDelete": "हटवणे अयशस्वी.",
+    "errDeleteGeneric": "की काढता आली नाही.",
+    "providers": {
+      "anthropic": {
+        "label": "Anthropic (Claude)",
+        "help": "तुमची की मिळवा: console.anthropic.com → Settings → API Keys"
+      },
+      "openai": {
+        "label": "OpenAI",
+        "help": "तुमची की मिळवा: platform.openai.com → API Keys"
+      },
+      "google": {
+        "label": "Google (Gemini)",
+        "help": "तुमची की मिळवा: aistudio.google.com/apikey"
+      }
+    }
+  }
+}

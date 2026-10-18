@@ -6,26 +6,40 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "translate-ui": "node --env-file=.env.local --import tsx scripts/translate-ui.ts"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.78",
+    "@ai-sdk/google": "^3.0.75",
+    "@ai-sdk/openai": "^3.0.64",
     "@anthropic-ai/sdk": "^0.78.0",
+    "@supabase/ssr": "^0.10.3",
+    "@supabase/supabase-js": "^2.105.4",
+    "ai": "^6.0.184",
+    "diff": "^9.0.0",
     "mammoth": "^1.11.0",
     "next": "16.1.6",
+    "next-intl": "^4.12.0",
+    "ollama-ai-provider-v2": "^3.5.1",
     "pdf-parse": "^2.4.5",
+    "pdfkit": "^0.18.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "sarvamai": "^1.1.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/diff": "^7.0.2",
     "@types/node": "^20",
     "@types/pdf-parse": "^1.1.5",
+    "@types/pdfkit": "^0.17.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
+    "tsx": "^4.22.1",
     "typescript": "^5"
   }
 }

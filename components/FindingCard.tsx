@@ -1,17 +1,23 @@
 'use client';
 
 import { useState } from 'react';
-import { Finding, SEVERITY_CONFIG, CATEGORY_LABELS, NEGOTIABILITY_CONFIG } from '@/lib/types';
+import { useTranslations } from 'next-intl';
+import { Finding, SEVERITY_CONFIG, NEGOTIABILITY_CONFIG } from '@/lib/types';
 
 interface FindingCardProps {
   finding: Finding;
   index: number;
 }
 
-export default function FindingCard({ finding, index }: FindingCardProps) {
+export default function FindingCard({ finding }: FindingCardProps) {
+  const t = useTranslations('findingCard');
+  const tSev = useTranslations('severity');
+  const tCat = useTranslations('categories');
+  const tNeg = useTranslations('negotiability');
   const [expanded, setExpanded] = useState(finding.severity === 'red');
   const [copied, setCopied] = useState(false);
   const config = SEVERITY_CONFIG[finding.severity];
+  const negConfig = finding.negotiability ? NEGOTIABILITY_CONFIG[finding.negotiability] : null;
 
   const copyFix = () => {
     navigator.clipboard.writeText(finding.suggested_fix);
@@ -20,103 +26,111 @@ export default function FindingCard({ finding, index }: FindingCardProps) {
   };
 
   return (
-    <div className={`rounded-xl border ${config.border} ${config.bg} overflow-hidden`}>
-      {/* Header — always visible */}
+    <article
+      className={[
+        'overflow-hidden rounded-2xl border bg-elevated transition-colors duration-200',
+        config.border,
+      ].join(' ')}
+    >
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full text-left p-4 flex items-start gap-3 hover:bg-white/[0.02] transition-colors"
+        className="group flex w-full items-start gap-3 p-4 text-left transition-colors duration-200 hover:bg-glass sm:p-5"
+        aria-expanded={expanded}
       >
-        <div className={`mt-1 w-2.5 h-2.5 rounded-full flex-shrink-0 ${config.dot}`} />
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap mb-1">
-            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${config.badge}`}>
-              {config.label}
+        <span aria-hidden className={`mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full ${config.dot}`} />
+        <div className="min-w-0 flex-1">
+          <div className="mb-1.5 flex flex-wrap items-center gap-2">
+            <span className={`rounded-full px-2 py-[1px] text-[11px] font-semibold ${config.badge}`}>
+              {tSev(finding.severity)}
             </span>
-            <span className="text-xs text-zinc-500 bg-white/5 px-2 py-0.5 rounded-full">
-              {CATEGORY_LABELS[finding.category]}
+            <span className="rounded-full bg-glass px-2 py-[1px] text-[11px] text-text-3">
+              {tCat(finding.category)}
             </span>
           </div>
-          <h3 className={`font-semibold text-sm ${config.color}`}>{finding.title}</h3>
+          <h3 className={`text-[15px] font-semibold tracking-tight ${config.color}`}>{finding.title}</h3>
           {!expanded && (
-            <p className="text-xs text-zinc-500 mt-1 line-clamp-1 font-mono">
+            <p className="mt-1 line-clamp-1 font-mono text-[12px] text-text-3">
               &ldquo;{finding.clause_text}&rdquo;
             </p>
           )}
         </div>
-        <div className="text-zinc-600 text-xs flex-shrink-0 mt-0.5">
-          {expanded ? '▲' : '▼'}
-        </div>
+        <span
+          aria-hidden
+          className={`mt-1.5 text-[12px] text-text-3 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}
+        >
+          ⌄
+        </span>
       </button>
 
-      {/* Expanded content */}
       {expanded && (
-        <div className="px-4 pb-4 space-y-4 border-t border-white/5 pt-4">
-          {/* Clause text */}
-          <div>
-            <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1.5">
-              Clause in contract
-            </p>
-            <blockquote className="text-sm text-zinc-300 font-mono bg-black/30 rounded-lg px-3 py-2.5 border-l-2 border-white/10 italic">
+        <div className="border-t border-stroke px-4 pb-5 pt-4 sm:px-5">
+          <Section label={t('clauseInContract')}>
+            <blockquote className="rounded-xl border-l-2 border-stroke-strong bg-bg p-3.5 font-mono text-[13px] italic leading-relaxed text-text-2">
               &ldquo;{finding.clause_text}&rdquo;
             </blockquote>
-          </div>
+          </Section>
 
           {finding.severity !== 'green' && (
             <>
-              {/* Why risky */}
-              <div>
-                <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1.5">
-                  Why this matters
-                </p>
-                <p className="text-sm text-zinc-300 leading-relaxed">{finding.why_risky}</p>
-              </div>
-
-              {/* Industry standard */}
-              <div>
-                <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1.5">
-                  Industry norm
-                </p>
-                <p className="text-sm text-zinc-400 leading-relaxed">{finding.industry_standard}</p>
-              </div>
-
-              {/* Suggested fix + negotiability */}
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <div className="flex items-center gap-2">
-                    <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
-                      Suggested language
-                    </p>
-                    {finding.negotiability && (
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${NEGOTIABILITY_CONFIG[finding.negotiability].badge}`}>
-                        {NEGOTIABILITY_CONFIG[finding.negotiability].label}
-                      </span>
-                    )}
-                  </div>
-                  <button
-                    onClick={copyFix}
-                    className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors flex items-center gap-1"
-                  >
-                    {copied ? '✓ Copied' : 'Copy'}
-                  </button>
-                </div>
-                <div className="text-sm text-zinc-200 font-mono bg-black/30 rounded-lg px-3 py-2.5 border border-white/10 leading-relaxed">
+              <Section label={t('whyThisMatters')}>
+                <p className="text-[14px] leading-relaxed text-text">{finding.why_risky}</p>
+              </Section>
+              <Section label={t('industryNorm')}>
+                <p className="text-[14px] leading-relaxed text-text-2">{finding.industry_standard}</p>
+              </Section>
+              <Section
+                label={t('suggestedLanguage')}
+                trailing={
+                  negConfig && (
+                    <span className={`rounded-full px-2 py-[1px] text-[11px] ${negConfig.badge}`}>
+                      {tNeg(finding.negotiability)}
+                    </span>
+                  )
+                }
+              >
+                <div className="rounded-xl border border-stroke bg-bg p-3.5 font-mono text-[13px] leading-relaxed text-text">
                   {finding.suggested_fix}
                 </div>
-              </div>
+                <div className="mt-2 flex justify-end">
+                  <button
+                    onClick={copyFix}
+                    className="rounded-full px-3 py-1 text-[12px] text-text-3 transition-colors duration-200 hover:text-text"
+                  >
+                    {copied ? t('copied') : t('copySuggested')}
+                  </button>
+                </div>
+              </Section>
             </>
           )}
 
           {finding.severity === 'green' && (
-            <div>
-              <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1.5">
-                Why this is fine
-              </p>
-              <p className="text-sm text-zinc-300 leading-relaxed">{finding.why_risky}</p>
-              <p className="text-sm text-zinc-400 leading-relaxed mt-2">{finding.industry_standard}</p>
-            </div>
+            <Section label={t('whyThisIsFine')}>
+              <p className="text-[14px] leading-relaxed text-text">{finding.why_risky}</p>
+              <p className="mt-2 text-[13.5px] leading-relaxed text-text-2">{finding.industry_standard}</p>
+            </Section>
           )}
         </div>
       )}
+    </article>
+  );
+}
+
+function Section({
+  label,
+  trailing,
+  children,
+}: {
+  label: string;
+  trailing?: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="mt-4 first:mt-0">
+      <div className="mb-1.5 flex items-center justify-between gap-2">
+        <p className="text-eyebrow text-text-3">{label}</p>
+        {trailing}
+      </div>
+      {children}
     </div>
   );
 }
